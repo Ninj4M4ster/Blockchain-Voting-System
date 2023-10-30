@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const app = express();
 app.use(bodyParser.json());
 
-// Przykładowa baza danych (tymczasowa)
+// Przykładowa baza daanych (tymczasowa)
 let registeredUsers = [];
 let votes = [];
 
