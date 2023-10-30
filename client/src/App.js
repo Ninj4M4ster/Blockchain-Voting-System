@@ -1,5 +1,6 @@
 import {useState} from 'react';
 import axios from 'axios';
+import './App.css';
  
 export default function  ControlledComponent()  {
 	const  [candidateId, setCandidateIdInputValue] =  useState('');
@@ -38,17 +39,23 @@ export default function  ControlledComponent()  {
   }
 
   return  (
-    <form onSubmit={handleSubmit}>
-	    <label>Candidate ID:
-	      <input  type="text"  value={candidateId} onChange={handleCandidateIdChange} />
-	    </label>
-      <label>Public key:
-	      <input  type="text"  value={publicKey} onChange={handlePublicKeyChange} />
-	    </label>
-      <label>Private key signature:
-	      <input  type="text"  value={privateKeySignature} onChange={handlePrivateKeySignatureChange} />
-	    </label>
-      <button type="submit">Create</button>
-    </form>
+    <body>
+      <div className = "container">
+        <div id = "stylized">
+          <form onSubmit={handleSubmit}>
+            <label>Candidate ID:
+              <input  type="text"  value={candidateId} onChange={handleCandidateIdChange} />
+            </label>
+            <label>Public key:
+              <input  type="text"  value={publicKey} onChange={handlePublicKeyChange} />
+            </label>
+            <label>Private key signature:
+              <input  type="text"  value={privateKeySignature} onChange={handlePrivateKeySignatureChange} />
+            </label>
+            <button type="submit">VOTE</button>
+          </form>
+        </div>
+      </div>
+    </body>
   )
 };
