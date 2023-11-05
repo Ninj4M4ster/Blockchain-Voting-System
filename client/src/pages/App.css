@@ -1,0 +1,185 @@
+#stylized input{
+  display: block;
+  font-size:11px;
+  padding:4px 2px;
+  border: 0;
+  border-bottom: 1px solid gainsboro;
+  color: #2e2e2e;
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 9px;
+  margin-bottom: 30px;
+  font-size: 20px;
+  background-color: #e9e9e9;
+}
+
+#stylized form{
+  background-color: #e3e3e3;
+  width: 60%;
+  height: 50%;
+  padding-left: 90px;
+  padding-right: 90px;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  font-size: 20px;
+  color: white;
+  text-align: left;
+  border-radius: 10px;
+}
+
+.container{
+  display: inline-grid;
+  place-items: center;
+  padding-top: 60px;
+}
+
+body{
+  background-image: linear-gradient(rgba(255, 255, 255, 0.4),rgba(255, 255, 255, 0.6)), url(./img/background-2.png);
+  background-size: cover;
+}
+
+button{
+  background-color: #2e2e2e;
+  color: white;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 10px;
+  font-weight: 700;
+  padding-bottom: 10px;
+  border: 0px;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.buttonwrapper{
+  margin-left: auto;
+  margin-right: auto;
+}
+
+h1{
+  color: white;
+  margin: 0;
+  padding: 0;
+  padding-top: 0;
+  padding-bottom: 20px;
+}
+
+label{
+  font-size: 10px;
+  text-align: left;
+  color: #2e2e2e;
+}
+
+h2{
+  margin: 0;
+  padding: 0;
+  padding-bottom: 30px;
+  width: 100%;
+  text-align: center;
+}
+
+h4{
+  margin: 0;
+  padding: 0;
+}
+
+a{
+  color: #1a1a1a;
+  text-decoration: none;
+  padding: 10px;
+  padding-left: 40px;
+  padding-right: 40px;
+  opacity: 0.5;
+  font-size: 20px;
+}
+
+a:hover{
+  background-color: #b5b3b3;
+  opacity: 1;
+}
+
+.head{
+  display: flex;
+  background-color: #1a1a1a;
+}
+
+.wrapper{
+  border: 1px solid red;
+  margin: 1rem;
+  padding: 2rem 2rem;
+  text-align: center;
+}
+
+.candidate{
+  vertical-align: middle;
+  color: white;
+  margin-bottom: 10px;
+  min-width: 200px;
+  max-width: 400px;
+  border-right: 1px solid #2e2e2e;
+}
+
+.formh2{
+  font-size: 25px;
+  color: #2e2e2e;
+}
+
+h4{
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 25px;
+  color: #aba6a6;
+  padding-top: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.id{
+  font-size: 40px;
+  padding-bottom: 0;
+  background-color: #2e2e2e;
+  color: gainsboro;
+  padding-top: 10px;
+}
+
+.candidateidtext{
+  font-size: 10px; 
+}
+
+.candidatedescriptiontext{
+  font-size: 12px;
+  padding: 10px;
+  color: #8c8787;
+  border-radius: 5px;
+}
+
+.idwrapper{
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.candidatewrapper{
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+footer{
+  margin-top: auto;
+  padding: 20px;
+}
+
+.wrap{
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+h5{
+  padding: 0;
+  text-align: center;
+  margin: 0;
+  color: #aba6a6;
+  font-weight: 400;
+}

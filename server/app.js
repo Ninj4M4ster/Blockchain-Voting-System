@@ -9,6 +9,11 @@ app.use(bodyParser.json());
 // Przykładowa baza daanych (tymczasowa)
 let registeredUsers = [];
 let votes = [];
+const candidates = [];
+candidates.push({candidateId: '1', name: 'Tom',})
+candidates.push({candidateId: '2', name: 'Sam',})
+candidates.push({candidateId: '3', name: 'Anna',})
+candidates.push({candidateId: '4', name: 'Kathy',})
 
 // Endpoint rejestracji
 // banalny zapis bez zachowania bezpieczenstwa na potrzeby poczatkowej implementacji
