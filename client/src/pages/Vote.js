@@ -46,12 +46,9 @@ export default function Vote(){
   }
 
   return  (
-    <body>
+    <body className = "votebody">
       <div className = "wrap">
       <div class = "head" onClick = {setCandidateHandler}>
-      <div className = "imagelogowrapper">
-                <img src = {Logo} width = "1000" className = "imglogo"/>
-              </div>
         <Candidates />
       </div>
       <div className = "container">

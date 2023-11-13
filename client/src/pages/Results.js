@@ -46,6 +46,11 @@ export default function Results()  {
     return  (
       <body>
           <div className = "wrapchart">
+            <div class = "head2">
+              <a href="#" className = "heada">LOG OUT</a>
+              <a href="#" className = "heada">CHOOSE ELECTIONS</a>
+              <a href="#" className = "heada">MORE ABOUT VOTING SYSTEM</a>
+            </div>
             <div className = "chart">
               <Chart/>
             </div>

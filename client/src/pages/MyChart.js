@@ -15,7 +15,7 @@ export default function MyChart() {
 
     const COLORS = ["#c7c91c", "#7feb75", "#68b9d9"];
     return (
-            <PieChart width={600} height={600} className="chart">
+            <PieChart width={400} height={400} className="chart">
             <Pie
                 dataKey="value"
                 isAnimationActive={false}
