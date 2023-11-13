@@ -10,6 +10,7 @@ export default function App()  {
   const  [publicKey, setPublicKeyInputValue] =  useState('');
   const  [privateKeySignature, setPrivateKeySignatureInputValue] =  useState('');
 
+
 	const handleCandidateIdChange = (event) => {
     console.log('e')
 		setCandidateIdInputValue(event.target.value);
@@ -82,7 +83,6 @@ export default function App()  {
           </footer>
             </div>
           </div>
-
         </div>
     </body>
     )
