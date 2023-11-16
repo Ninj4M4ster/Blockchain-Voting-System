@@ -6,37 +6,31 @@ import Logo from './logoblockchain.png'
 
 export default function App()  {
 
-  const  [candidateId, setCandidateIdInputValue] =  useState('');
-  const  [publicKey, setPublicKeyInputValue] =  useState('');
-  const  [privateKeySignature, setPrivateKeySignatureInputValue] =  useState('');
+  const  [email, setEmailValue] =  useState('');
+  const  [password, setPasswordValue] =  useState('');
 
 
-	const handleCandidateIdChange = (event) => {
-    console.log('e')
-		setCandidateIdInputValue(event.target.value);
+	const handleEmailChange = (event) => {
+		setEmailValue(event.target.value);
 	};
 
-  const handlePublicKeyChange = (event) => {
-		setPublicKeyInputValue(event.target.value);
-	};
-
-  const handlePrivateKeySignatureChange = (event) => {
-		setPrivateKeySignatureInputValue(event.target.value);
+  const handlePasswordChange = (event) => {
+		setPasswordValue(event.target.value);
 	};
 
   const handleSubmit = e => {
     e.preventDefault();
 
-    const voteData = {
-      candidateId,
-      publicKey,
-      privateKeySignature
+    const userData = {
+      email,
+      password
     }
 
     axios
-      .post('http://localhost:3001/vote', voteData)
-      .then(() => console.log('Vote send.'))
+      .post('http://localhost:8080/login', userData)
+      .then(() => console.log('Data sent.'))
       .catch(err => {
+        console.log('Error detected');
         console.error(err);
       });
   }
@@ -67,10 +61,10 @@ export default function App()  {
                   </div>
                   <br/>
                   <label>LOGIN:
-                    <input  type="text" value={candidateId} onChange={handleCandidateIdChange} />
+                    <input  type="text" value={email} onChange={handleEmailChange} />
                   </label>
                   <label>PASSWORD:
-                    <input  type="text" value={publicKey} onChange={handlePublicKeyChange} />
+                    <input  type="text" value={password} onChange={handlePasswordChange} />
                   </label>
                   <div className = "buttonwrapper">
                     <button type="submit">LOGIN</button>
