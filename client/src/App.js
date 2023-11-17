@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Login from './pages/Login'
 import Register from './pages/Register'
-import Results from './pages/Results'
 import Vote from './pages/Vote'
+import Results from './pages/Results'
 
  
 export default function App()  {
