@@ -18,7 +18,9 @@ class BlockchainUseCase{
         return listOf(
             ResultsData(1, "Tom", 100),
             ResultsData(2,"Kathy", 150),
-            ResultsData(3,"Sam", 200)
+            ResultsData(3,"Sam", 200),
+            ResultsData(4,"Adam", 50),
+            ResultsData(5,"Sam",1000)
         )
     }
 

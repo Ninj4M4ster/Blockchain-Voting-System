@@ -4,9 +4,35 @@ import './App.css';
 import Lock from './lock.svg';
 import RegisterIcon from './register.svg'
 import Logo from './logoblockchain.png'
-import Chart from './MyChart';
+import Chart from './MyChart'
 
 export default function Results()  {
+
+  const [data, setData] = useState([]);
+ 
+    const getData = () => {
+      axios.get("http://localhost:8080/results")
+      .then((data) => {
+          setData(data.data)
+      });
+    }
+
+    const chartData = []
+    data.forEach(element => {
+      chartData.push({name: element.candidateName, value: element.voteCount});
+    });
+       
+    useEffect(() => {
+        getData();
+    }, []);
+
+    var result = data.map(item => 
+      <div className = "candidateresult">
+        <h3 className="resultsh3">{item.candidateName}</h3>
+        <h4 className="resultsh4">CANDIDATE ID: {item.candidateId}</h4>
+        <h2 className="resultsh2">VOTES: {item.voteCount}</h2>
+      </div>
+    )
 
     return  (
       <body>
@@ -17,24 +43,10 @@ export default function Results()  {
               <a href="#" className = "heada">MORE ABOUT VOTING SYSTEM</a>
             </div>
             <div className = "chart">
-              <Chart/>
+              <Chart chartData = {chartData}/>
             </div>
             <div className = "containerresults">
-                <div className = "candidateresult">
-                  <h3 className="resultsh3">CATHY GARCIA</h3>
-                  <h4 className="resultsh4">Candidate ID: 3</h4>
-                  <h2 className="resultsh2">VOTES: 150</h2>
-                </div>
-                <div className = "candidateresult">
-                  <h3 className="resultsh3">TOM HANKS</h3>
-                  <h4 className="resultsh4">Candidate ID: 2</h4>
-                  <h2 className="resultsh2">VOTES: 100</h2>
-                </div>
-                <div className = "candidateresult">
-                  <h3 className="resultsh3">ALICE BROWN</h3>
-                  <h4 className="resultsh4">Candidate ID: 1</h4>
-                  <h2 className="resultsh2">VOTES: 50</h2>
-                </div>
+              {result}
             </div>
           </div>
     </body>
