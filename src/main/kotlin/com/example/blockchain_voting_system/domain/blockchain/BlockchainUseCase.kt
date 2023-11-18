@@ -26,7 +26,7 @@ class BlockchainUseCase{
 
     private fun canUserVote(email: String) : Boolean {
         //TODO: check vote rights
-        return true
+        return false
     }
 
     private fun sendVoteToBlockchainSystem(){

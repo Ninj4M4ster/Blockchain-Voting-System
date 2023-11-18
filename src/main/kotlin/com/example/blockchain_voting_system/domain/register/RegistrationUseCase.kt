@@ -11,7 +11,7 @@ class RegistrationUseCase{
             RegistrationUseCaseResult.EMAIL_IS_NOT_VALID
         } else if(!checkIfPasswordsMatch(registerUserData.password, registerUserData.repeatedPassword)){
             RegistrationUseCaseResult.PASSWORD_DONT_MATCH
-        } else if(!checkIfEmailIsAlreadyRegistered(registerUserData.email)){
+        } else if(checkIfEmailIsAlreadyRegistered(registerUserData.email)){
             RegistrationUseCaseResult.EMAIL_IS_ALREADY_REGISTERED
         } else{
             registerUserInTheDatabase(registerUserData.email, registerUserData.password)

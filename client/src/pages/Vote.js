@@ -9,8 +9,10 @@ export default function Vote(){
   
 	const  [candidateId, setCandidateIdInputValue] =  useState('');
   const  [publicKey, setPublicKeyInputValue] =  useState('');
-  const  [privateKeySignature, setPrivateKeySignatureInputValue] =  useState('');
+  const  [privateKey, setPrivateKeySignatureInputValue] =  useState('');
   const  [candidateShown, setCandidateShownValue] = useState(false)
+  const  [error, setError] = useState({error: ""});
+  const  email = "a@b.c"
 
   const setCandidateHandler = () => {
 		setCandidateShownValue(current => !current);
@@ -32,16 +34,24 @@ export default function Vote(){
     e.preventDefault();
 
     const voteData = {
+      email,
       candidateId,
       publicKey,
-      privateKeySignature
+      privateKey
     }
 
     axios
-      .post('http://localhost:3001/vote', voteData)
-      .then(() => console.log('Vote send.'))
+      .post('http://localhost:8080/vote', voteData)
+      .then(() => {
+        setError({error: ""});
+      })
       .catch(err => {
-        console.error(err);
+        if(err.response.status == 403){
+          setError({error: "You don't have permissions to vote."});
+        } else{
+          setError({error: "Error occured. Please try again later."});
+        }
+
       });
   }
 
@@ -62,8 +72,11 @@ export default function Vote(){
               <input  type="text" value={publicKey} onChange={handlePublicKeyChange} />
             </label>
             <label>PRIVATE KEY SIGNATURE:
-              <input  type="text" value={privateKeySignature} onChange={handlePrivateKeySignatureChange} />
+              <input  type="text" value={privateKey} onChange={handlePrivateKeySignatureChange} />
             </label>
+            <div className = "errorHeader">
+              <h6 className = "errorh">{error.error}</h6>
+            </div>
             <div className = "buttonwrapper">
             <button type="submit">VOTE</button>
             </div>

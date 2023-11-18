@@ -1,9 +1,6 @@
 import {useState, useEffect, React} from 'react';
 import axios from 'axios';
 import './App.css';
-import Lock from './lock.svg';
-import RegisterIcon from './register.svg'
-import Logo from './logoblockchain.png'
 import Chart from './MyChart'
 
 export default function Results()  {

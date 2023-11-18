@@ -328,7 +328,7 @@ h5{
   margin-left: auto;
   margin-right: auto;
   width: 30vh;
-  height: 0vh;
+  height: 30vh;
   margin-top: auto;
   margin-bottom: auto;
 }
@@ -346,4 +346,17 @@ h5{
 
 .head2{
   margin-top: 10px;
+}
+
+.errorHeader{
+  color: rgb(156, 13, 13);
+  height: 30px;
+  text-align: center;
+  width: auto;
+  margin-bottom: 10px;
+}
+
+.errorh{
+  font-weight: 300;
+  font-size: 12px;
 }

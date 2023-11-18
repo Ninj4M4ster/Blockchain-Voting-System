@@ -7,38 +7,46 @@ import Logo from './logoblockchain.png'
 
 export default function App()  {
 
-  const  [candidateId, setCandidateIdInputValue] =  useState('');
-  const  [publicKey, setPublicKeyInputValue] =  useState('');
-  const  [privateKeySignature, setPrivateKeySignatureInputValue] =  useState('');
+  const  [email, setEmailValue] =  useState('');
+  const  [password, setPasswordValue] =  useState('');
+  const  [repeatedPassword, setRepeatedPasswordValue] =  useState('');
+  const  [error, setError] = useState({error: ""});
 
-
-	const handleCandidateIdChange = (event) => {
-    console.log('e')
-		setCandidateIdInputValue(event.target.value);
+	const handleEmailChange = (event) => {
+		setEmailValue(event.target.value);
 	};
 
-  const handlePublicKeyChange = (event) => {
-		setPublicKeyInputValue(event.target.value);
+  const handlePasswordChange = (event) => {
+		setPasswordValue(event.target.value);
 	};
 
-  const handlePrivateKeySignatureChange = (event) => {
-		setPrivateKeySignatureInputValue(event.target.value);
+  const handleRepeatedPasswordChange = (event) => {
+		setRepeatedPasswordValue(event.target.value);
 	};
+
 
   const handleSubmit = e => {
     e.preventDefault();
 
-    const voteData = {
-      candidateId,
-      publicKey,
-      privateKeySignature
+    const userData = {
+      email,
+      password,
+      repeatedPassword
     }
 
     axios
-      .post('http://localhost:3001/vote', voteData)
-      .then(() => console.log('Vote send.'))
+      .post('http://localhost:8080/register', userData)
+      .then(() => {
+        setError({error: ""});
+      })
       .catch(err => {
-        console.error(err);
+        if(err.response.status == 403){
+          setError({error: "Passwords don't match or email is invalid."});
+        } else if(err.response.status == 409){
+          setError({error: "This email is already registered."});
+        } else{
+          setError({error: "Error occured. Please try again later."});
+        }
       });
   }
 
@@ -68,14 +76,17 @@ export default function App()  {
                   </div>
                   <br/>
                   <label>EMAIL:
-                    <input  type="text" value={candidateId} onChange={handleCandidateIdChange} />
+                    <input  type="text" value={email} onChange={handleEmailChange} />
                   </label>
                   <label>LOGIN:
-                    <input  type="text" value={publicKey} onChange={handlePublicKeyChange} />
+                    <input  type="text" value={password} onChange={handlePasswordChange} />
                   </label>
                   <label>PASSWORD:
-                    <input  type="text" value={publicKey} onChange={handlePublicKeyChange} />
+                    <input  type="text" value={repeatedPassword} onChange={handleRepeatedPasswordChange} />
                   </label>
+                  <div className = "errorHeader">
+                      <h6 className = "errorh">{error.error}</h6>
+                  </div>
                   <div className = "buttonwrapper">
                     <button type="submit">LOGIN</button>
                   </div>

@@ -31,17 +31,19 @@ class VoteService(){
 
     fun registerUser(registerUserData: RegisterUserData) : ResponseEntity<Unit> {
         println("User $registerUserData trying to register")
-        return when(registrationUseCase.registerUser(registerUserData)){
-            RegistrationUseCaseResult.EMAIL_IS_NOT_VALID -> ResponseEntity.status(401).build()
-            RegistrationUseCaseResult.EMAIL_IS_ALREADY_REGISTERED -> ResponseEntity.status(401).build()
-            RegistrationUseCaseResult.PASSWORD_DONT_MATCH -> ResponseEntity.status(401).build()
+        val k = registrationUseCase.registerUser(registerUserData)
+        println(k)
+        return when(k){
+            RegistrationUseCaseResult.EMAIL_IS_NOT_VALID-> ResponseEntity.status(403).build()
+            RegistrationUseCaseResult.PASSWORD_DONT_MATCH -> ResponseEntity.status(403).build()
+            RegistrationUseCaseResult.EMAIL_IS_ALREADY_REGISTERED -> ResponseEntity.status(409).build()
             RegistrationUseCaseResult.OK -> ResponseEntity.ok().build()
         }
     }
 
     fun sendVote(voteData: VoteData) : ResponseEntity<Unit> {
         return when(blockchainUseCase.vote(voteData)){
-            BlockchainUseCaseResult.USER_NOT_ALLOWED_TO_VOTE -> ResponseEntity.status(401).build()
+            BlockchainUseCaseResult.USER_NOT_ALLOWED_TO_VOTE -> ResponseEntity.status(403).build()
             BlockchainUseCaseResult.VOTE_SENT -> ResponseEntity.ok().build()
         }
     }

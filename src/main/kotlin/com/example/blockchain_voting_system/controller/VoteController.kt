@@ -19,8 +19,11 @@ class VoteController(private val voteService: VoteService){
 
     @CrossOrigin
     @PostMapping("/register")
-    fun registerUser(@RequestBody payload: RegisterUserData) : ResponseEntity<Unit> = voteService.registerUser(payload)
-
+    fun registerUser(@RequestBody payload: RegisterUserData) : ResponseEntity<Unit>{
+        val k = voteService.registerUser(payload)
+        println(k)
+        return k
+    }
     @CrossOrigin
     @PostMapping("/vote")
     fun vote(@RequestBody payload: VoteData) : ResponseEntity<Unit> = voteService.sendVote(payload)

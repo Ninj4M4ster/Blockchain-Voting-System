@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import axios from 'axios';
 import './App.css';
 import Lock from './lock.svg';
@@ -8,7 +8,7 @@ export default function App()  {
 
   const  [email, setEmailValue] =  useState('');
   const  [password, setPasswordValue] =  useState('');
-
+  const  [error, setError] = useState({error: ""});
 
 	const handleEmailChange = (event) => {
 		setEmailValue(event.target.value);
@@ -28,10 +28,16 @@ export default function App()  {
 
     axios
       .post('http://localhost:8080/login', userData)
-      .then(() => console.log('Data sent.'))
+      .then(() => {
+        setError({error: ""});
+      })
       .catch(err => {
-        console.log('Error detected');
-        console.error(err);
+        if(err.response.status == 401){
+          setError({error: "Email or password is incorrect. Please check your credentials."});
+        } else{
+          setError({error: "Error occured. Please try again later."});
+        }
+
       });
   }
 
@@ -66,6 +72,9 @@ export default function App()  {
                   <label>PASSWORD:
                     <input  type="text" value={password} onChange={handlePasswordChange} />
                   </label>
+                  <div className = "errorHeader">
+                      <h6 className = "errorh">{error.error}</h6>
+                  </div>
                   <div className = "buttonwrapper">
                     <button type="submit">LOGIN</button>
                   </div>
@@ -79,5 +88,17 @@ export default function App()  {
           </div>
         </div>
     </body>
+    )
+  };
+
+  function NoErrorHeader(){
+    return(
+      <h6 className = "errorh"></h6>
+    )
+  };
+
+  function ErrorHeader(){
+    return(
+      <h6 className = "errorh">Error</h6>
     )
   };
