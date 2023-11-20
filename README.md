@@ -17,7 +17,8 @@ Then, you will need to create database and populate it. In order
 to do this, run following command from project root directory:
 
 ```bash
-bash scripts/setup.sh
+sudo -i -u postgres
+psql -U postgres postgres -f /path/to/Blockchain-Voting-System/scripts/create_database.sql
 ```
 
 After this, everything should be running and ready.

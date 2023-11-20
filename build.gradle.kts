@@ -24,6 +24,12 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	implementation(platform("org.hibernate.orm:hibernate-platform:6.4.0.CR1"))
+
+	implementation("org.hibernate.orm:hibernate-core")
+	implementation("jakarta.transaction:jakarta.transaction-api")
+	implementation("org.postgresql:postgresql")
+
 }
 
 tasks.withType<KotlinCompile> {
