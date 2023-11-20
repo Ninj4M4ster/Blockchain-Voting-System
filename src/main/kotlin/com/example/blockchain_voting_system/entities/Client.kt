@@ -13,7 +13,7 @@ data class Client (
         @Column(name = "password", nullable = false)
         val password: String?= null,
 
-        @OneToOne(mappedBy = "client", cascade = [(CascadeType.ALL)], optional = false)
+        @OneToOne(cascade = [(CascadeType.ALL)], optional = false)
         @JoinColumn(name="id_right_to_vote")
         val idRightToVote: RightsToVote?= null,
 )

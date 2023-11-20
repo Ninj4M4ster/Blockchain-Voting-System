@@ -3,7 +3,7 @@ package com.example.blockchain_voting_system.entities
 import jakarta.persistence.*
 
 @Entity
-@Table(name = "email_to_vote", schema="blockchain_voting")
+@Table(name = "email_to_vote")
 data class EmailToVote(
         @Id
         @GeneratedValue(strategy=GenerationType.IDENTITY)
