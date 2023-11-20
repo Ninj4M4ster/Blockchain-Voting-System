@@ -36,9 +36,7 @@ class DatabaseService private constructor() {
      */
     fun checkLoginCredentials(email: String, password: String) : Boolean {
         val foundEntry = getRightsBasedOnEmail(email)
-        if(foundEntry.isNotEmpty())
-            println("gotcha!")
-        return foundEntry.size == 1 && foundEntry[0].client != null && foundEntry[0].client?.password == password
+        return foundEntry?.client != null && foundEntry.client.password == password
     }
 
     /**
@@ -49,7 +47,7 @@ class DatabaseService private constructor() {
      */
     fun isEmailRegistered(email: String) : Boolean {
         val foundEntry = getRightsBasedOnEmail(email)
-        return foundEntry.size == 1 && foundEntry[0].client != null
+        return foundEntry?.client != null
     }
 
     /**
@@ -60,13 +58,11 @@ class DatabaseService private constructor() {
      * @return Was the user registered?
      */
     fun registerUser(email: String, password: String) : Boolean {
-        val foundEntry = getRightsBasedOnEmail(email)
-        if(foundEntry.isEmpty())
-            return false
+        val foundEntry = getRightsBasedOnEmail(email) ?: return false
         val session = sessionFactory.openSession()
         val transaction = session.beginTransaction()
-        val client = Client(password = password, idRightToVote = foundEntry[0])
-        session.refresh(foundEntry[0])
+        val client = Client(password = password, idRightToVote = foundEntry)
+        session.refresh(foundEntry)
         session.merge(client)
         transaction.commit()
         session.close()
@@ -77,16 +73,19 @@ class DatabaseService private constructor() {
      * Get voting rights from database based on given email
      *
      * @param email User email
-     * @TODO(Jakub Drzewiecki): Change to return single right, since email is unique in db
      * @return List of rights to vote with given email
      */
-    private fun getRightsBasedOnEmail(email: String) : List<RightsToVote> {
+    private fun getRightsBasedOnEmail(email: String) : RightsToVote? {
         val session = sessionFactory.openSession()
         session.beginTransaction()
-        val query = session.createQuery("from RightsToVote where email = ?1", RightsToVote::class.java)
+        val query = session.createQuery(
+                "from RightsToVote where email = ?1",
+                RightsToVote::class.java)
         query.setParameter(1, email)
         val foundEntry = query.list()
         session.close()
-        return foundEntry
+        if(foundEntry.isEmpty())
+            return null
+        return foundEntry[0]
     }
 }
