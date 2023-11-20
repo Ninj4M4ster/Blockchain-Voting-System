@@ -7,8 +7,11 @@ import jakarta.persistence.*
 data class RightsToVote(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        @Column(name="id")
-        val id: Int?= null,
+        val id: Int?=null,
+        @OneToOne
+        @JoinColumn(name = "id")
+        val client: Client?= null,
         @Column(name = "email", unique = true, nullable = false)
         val email: String?= null,
+
 )

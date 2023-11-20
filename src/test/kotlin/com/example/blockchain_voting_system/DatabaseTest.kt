@@ -20,13 +20,13 @@ class DatabaseTest{
                 .addAnnotatedClass(EmailToVote::class.java)
                 .addAnnotatedClass(RightsToVote::class.java)
                 .addAnnotatedClass(Voting::class.java)
-                .buildSessionFactory();
-        val session = sessionFactory.openSession();
-        session.beginTransaction();
+                .buildSessionFactory()
+        val session = sessionFactory.openSession()
+        session.beginTransaction()
         val ent = RightsToVote(email =  "drze@gmail.com")
-        session.merge(ent);
-        val foundClient = session.find(RightsToVote::class.java, ent.id);
+        session.merge(ent)
+        val foundClient = session.find(RightsToVote::class.java, ent.id)
         session.refresh(foundClient)
-        assertTrue(foundClient.email == "drze@gmail.com");
+        assertTrue(foundClient.email == "drze@gmail.com")
     }
 }
