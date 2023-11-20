@@ -1,10 +1,12 @@
 package com.example.blockchain_voting_system.domain.register
 
 import com.example.blockchain_voting_system.data.RegisterUserData
+import com.example.blockchain_voting_system.service.DatabaseService
 
 class RegistrationUseCase{
 
     private val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\$"
+    private val dbService = DatabaseService.getService()
 
     fun registerUser(registerUserData: RegisterUserData): RegistrationUseCaseResult {
         return if(!isEmailValid(registerUserData.email)){
@@ -24,11 +26,11 @@ class RegistrationUseCase{
     private fun checkIfPasswordsMatch(password: String, repeatedPassword: String) = password == repeatedPassword
 
     private fun checkIfEmailIsAlreadyRegistered(email: String): Boolean{
-        //TODO: check if email is already in the database
-        return false
+        return dbService.isEmailRegistered(email)
     }
 
     private fun registerUserInTheDatabase(email: String, password: String){
         //TODO: register user
+        dbService.registerUser(email, password)
     }
 }
