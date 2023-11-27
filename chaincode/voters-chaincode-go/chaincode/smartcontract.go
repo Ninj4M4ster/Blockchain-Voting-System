@@ -164,3 +164,29 @@ func (s *SmartContract) AddSignature(ctx contractapi.TransactionContextInterface
 
 	return ctx.GetStub().PutState(publicKey, voterJSON)
 }
+
+func (s *SmartContract) CountSignatures(ctx contractapi.TransactionContextInterface) (int, error) {
+	resultsIterator, err := ctx.GetStub().GetStateByRange("", "")
+	if err != nil {
+		return 0, err
+	}
+	defer resultsIterator.Close()
+
+	numberOfSignatures := 0
+	for resultsIterator.HasNext() {
+		queryResponse, err := resultsIterator.Next()
+		if err != nil {
+			return 0, err
+		}
+
+		var voter Voter
+		err = json.Unmarshal(queryResponse.Value, &voter)
+		if err != nil {
+			return 0, err
+		}
+		if voter.Signature != "" {
+			numberOfSignatures += 1
+		}
+	}
+	return numberOfSignatures, nil
+}

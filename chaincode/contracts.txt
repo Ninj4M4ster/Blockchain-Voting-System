@@ -1,0 +1,77 @@
+Contracts in voters:
+Read-only:
+
+GatAllVoters() -> Voter[]
+Possible errors:
+ - failed to read from world state
+ - failed to get iterator
+ - failed to unmarshal json
+
+VoterExists(string publicKey) -> bool
+Possible errors:
+ - failed to read from world state
+
+CanVote(string publicKey) -> bool
+Possible errors:
+ - failed to read from world state
+ - failed to unmarshal json
+
+CountSignatures() -> int
+Possible errors:
+ - failed to read from world state
+ - failed to get iterator
+ - failed to unmarshal json
+
+Write:
+
+
+AddVoter(string publicKey)
+Possible errors:
+ - failed to read from world state
+ - voter is already present in world state
+ - failed to put to world state
+
+AddSignature(string publicKey, string signature)
+Possible errors:
+ - failed to read from world state
+ - voter doesn't have right to vote
+ - voter already cast their vote
+ - signature is incorrect
+ - failed to marshall json
+ - failed to put to world state
+
+
+
+
+Contracts in votes:
+Read only:
+
+GetAllVotes() -> Vote[]
+Possible errors:
+ - failed to read from world state
+ - failed to query response
+ - failed to unmarshal json
+
+VoteCount() -> int
+Possible errors:
+ - failed to read from world state
+ - failed to get iterator
+
+CheckValidity() -> bool (this one uses CountSignatures from chain code "voters "on channel "voters")
+Possible errors:
+ - VoteCount returned error
+ - failed to get result from CountSignatures
+
+Write:
+
+CastVote(string candidateID)
+Possible errors:
+ - failed to read from world state (this will probably be removed)
+ - field to marshal json
+ - failed to put to state
+
+Installations:
+Voters: (assuming channel "voters")
+network.sh deployCC -c voters -ccn voters -ccl go -ccp [ścieżka kończąca się ana ...voters-chaincode-go]
+Votes: (assuming channel "votes")
+network.sh deployCC -c votes -ccn votes -ccl go -ccp [ścieżka kończąca się ana ...votes-chaincode-go]
