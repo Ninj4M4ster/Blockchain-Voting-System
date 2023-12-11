@@ -29,6 +29,10 @@ dependencies {
 	implementation("org.hibernate.orm:hibernate-core")
 	implementation("jakarta.transaction:jakarta.transaction-api")
 	implementation("org.postgresql:postgresql")
+	// https://mvnrepository.com/artifact/org.hyperledger.fabric/fabric-gateway
+	implementation("org.hyperledger.fabric:fabric-gateway:1.4.0")
+	// https://mvnrepository.com/artifact/io.grpc/grpc-netty
+	implementation("io.grpc:grpc-netty:1.59.1")
 
 }
 
