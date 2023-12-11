@@ -1,0 +1,21 @@
+InitElection - does nothing
+
+GetElectionStatus - always returns 0
+
+AddVoter - works, doesn't check election stats, doesn't check key validity
+
+RemoveVoter - works, doesn't check election status
+
+GetVoters - works
+
+HasVotingRights - works
+
+HasVoted - works
+
+CastVote - works, doesn't check election status, doesn't check signature
+
+FinalizeVote - works, doesn't check election status, doesn't add proof
+
+GetResults - works (might add checking election status)
+
+ValidateElection - works

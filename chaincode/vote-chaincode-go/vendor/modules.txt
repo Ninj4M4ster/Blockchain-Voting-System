@@ -62,6 +62,9 @@ github.com/josharian/intern
 github.com/mailru/easyjson/buffer
 github.com/mailru/easyjson/jlexer
 github.com/mailru/easyjson/jwriter
+# github.com/mitchellh/mapstructure v1.1.2
+## explicit
+github.com/mitchellh/mapstructure
 # github.com/rogpeppe/go-internal v1.11.0
 ## explicit; go 1.19
 github.com/rogpeppe/go-internal/modfile
