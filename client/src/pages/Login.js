@@ -81,7 +81,7 @@ export default function App()  {
                 </form>
               </div>
               <footer className = "menu">
-              <a href="#">REGISTER</a>
+              <a href="/register">REGISTER</a>
             <a href="#">MORE ABOUT VOTING SYSTEM</a>
           </footer>
             </div>
