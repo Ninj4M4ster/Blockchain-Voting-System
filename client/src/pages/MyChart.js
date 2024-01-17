@@ -7,8 +7,6 @@ export default function MyChart(chartData) {
 
     }
 
-
-
     const data = [
         {name: "Alice", value: 100},
         {name: "Tom", value: 150},
