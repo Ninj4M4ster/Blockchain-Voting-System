@@ -4,6 +4,7 @@ import Register from './pages/Register'
 import Vote from './pages/Vote'
 import Results from './pages/Results'
 import UserPanel from './pages/UserPanel'
+import AdminPanel from './pages/AdminPanel'
 
 
 export default function App()  {

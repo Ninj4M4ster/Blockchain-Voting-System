@@ -41,7 +41,7 @@
 }
 
 body{
-  background-image: linear-gradient(rgba(255, 153, 0, 0.8),rgba(222, 221, 218, 0.9)), url(./img/background-2.png);
+  background-image: linear-gradient(rgb(159, 159, 159),rgba(12, 5, 67, 0.8)), url(./img/background-3.png);
   background-size: cover;
 }
 
@@ -271,7 +271,7 @@ h5{
 }
 
 .wrapchart{
-  background-image: linear-gradient(rgb(254, 201, 122),rgba(14, 14, 12, 0.8)), url(./img/background-2.png);
+  background-image: linear-gradient(rgb(159, 159, 159),rgba(12, 5, 67, 0.8)), url(./img/background-3.png);
   height: 100vh;
   display: grid;
   grid-template-rows: 1fr 5fr 1fr;
@@ -375,6 +375,8 @@ h5{
 .wrapUserPanel{
   background-image: linear-gradient(rgb(159, 159, 159),rgba(12, 5, 67, 0.8)), url(./img/background-3.png);
   height: 100vh;
+  display: grid;
+  grid-template-rows: 10px auto 1fr;
 }
 
 .imagelogowrapperUserPanel img{
@@ -404,10 +406,9 @@ h5{
 
 .userPanelGrid{
   display: grid;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  grid-template-columns: 1fr 1fr 1fr;
+  height: 100%;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
 }
 
 .userPanelGridTitle h2{
@@ -467,4 +468,14 @@ h5{
   margin-top: 20px;
   margin-bottom: 10px;
   color: white;
+}
+
+.logoheaderh3error{
+  color:rgb(194, 96, 96);
+  margin: 0;
+  padding: 0;
+  font-size: 30px;
+  font-weight: 500;
+  text-align: center;
+  margin-top: 10px;
 }
