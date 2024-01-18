@@ -479,3 +479,89 @@ h5{
   text-align: center;
   margin-top: 10px;
 }
+
+.adminPanelGrid{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.adminPanelCell{
+  margin-left: 20px;
+  margin-right: 20px;
+  border-radius: 10px;
+  background-color: #e3e3e3;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.logoheaderh3admin{
+  color: #2e2e2e;
+  margin: 0;
+  padding: 0;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 30px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.adminPanelColumn{
+  display: grid;
+  grid-template-rows: 3fr 2fr;
+}
+
+#addcandidate form{
+  width: 60%;
+  height: 50%;
+  padding-left: 90px;
+  padding-right: 90px;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  font-size: 20px;
+  color: white;
+  text-align: left;
+  border-radius: 10px;
+  margin-bottom: 0;
+}
+
+.addCandidate input{
+  display: block;
+  font-size:11px;
+  padding:4px 2px;
+  border: 0;
+  border-bottom: 1px solid gainsboro;
+  color: #2e2e2e;
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 9px;
+  margin-bottom: 30px;
+  font-size: 20px;
+  background-color: #e9e9e9;
+}
+
+.addCandidate label{
+  margin-left: 10%
+}
+
+.addCandidate button{
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 0;
+}
+
+.buttonwrapperaddCandidate{
+  display: grid;
+}
+
+.errorHeaderAdmin{
+  color: rgb(156, 13, 13);
+  height: 20px;
+  text-align: center;
+  width: auto;
+}
+
+.adminPanelGrid2{
+  display: grid;
+  grid-template-rows: 5fr 2fr;
+}

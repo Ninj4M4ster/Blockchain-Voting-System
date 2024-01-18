@@ -5,6 +5,8 @@ import Chart from './MyChart'
 import Logo from './logoblockchain.png'
 
 export default function UserPanel()  {
+  
+  
 
     return  (
       <body>
