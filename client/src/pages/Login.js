@@ -32,7 +32,7 @@ export default function App()  {
     axios
       .post('http://localhost:8080/login', userData)
       .then((response) => {
-        console.log(response.data.access_token);
+        console.log(response.data);
         localStorage.setItem("jwt_token", response.data.access_token)
         setError({error: ""});
         navigate('/user');

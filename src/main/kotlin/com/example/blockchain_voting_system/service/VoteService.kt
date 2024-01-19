@@ -5,13 +5,13 @@ import com.example.blockchain_voting_system.data.ResultsData
 import com.example.blockchain_voting_system.data.UserData
 import com.example.blockchain_voting_system.data.VoteData
 import com.example.blockchain_voting_system.domain.authentication.AuthenticationUseCase
-import com.example.blockchain_voting_system.domain.authentication.AuthenticationUseCaseResult
-import com.example.blockchain_voting_system.domain.register.RegistrationUseCase
-import com.example.blockchain_voting_system.domain.register.RegistrationUseCaseResult
 import com.example.blockchain_voting_system.domain.blockchain.BlockchainUseCase
 import com.example.blockchain_voting_system.domain.blockchain.BlockchainUseCaseResult
+import com.example.blockchain_voting_system.domain.register.RegistrationUseCase
+import com.example.blockchain_voting_system.domain.register.RegistrationUseCaseResult
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
+import java.util.*
 
 @Service
 class VoteService(){
@@ -51,6 +51,21 @@ class VoteService(){
             BlockchainUseCaseResult.USER_NOT_ALLOWED_TO_VOTE -> ResponseEntity.status(403).build()
             BlockchainUseCaseResult.VOTE_SENT -> ResponseEntity.ok().build()
         }
+    }
+
+    fun getUserFromDecodedToken(token: String){
+        val parts = token.split(".")
+        val decoder: Base64.Decoder = Base64.getUrlDecoder()
+        val header: String = String(decoder.decode(parts.get(0)))
+        val payload: String = String(decoder.decode(parts.get(1)))
+        println(header)
+        println(payload)
+    }
+
+    fun canUserVote(token: String) : ResponseEntity<Boolean> {
+        getUserFromDecodedToken(token)
+        return ResponseEntity.ok(true)
+        //return authenticationUseCase.canUserVote()
     }
 
     fun getResults() : ResponseEntity<List<ResultsData>> {

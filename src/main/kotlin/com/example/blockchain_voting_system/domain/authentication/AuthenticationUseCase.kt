@@ -15,7 +15,7 @@ class AuthenticationUseCase{
     private val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\$"
     private val dbService = DatabaseService.getService()
 
-    private val realmName: String = "myrealm"
+    private var realmName: String = "myrealm"
 
     fun login(login: String, password: String): String? {
         val webClient: WebClient = WebClient
@@ -61,6 +61,10 @@ class AuthenticationUseCase{
 
     private fun checkUserCredentials(email: String, password: String): Boolean{
         return dbService.checkLoginCredentials(email, password)
+    }
+
+    fun canUserVote(){
+
     }
 
 }

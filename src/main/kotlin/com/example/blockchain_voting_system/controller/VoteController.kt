@@ -1,9 +1,6 @@
 package com.example.blockchain_voting_system.controller
 
-import com.example.blockchain_voting_system.data.RegisterUserData
-import com.example.blockchain_voting_system.data.ResultsData
-import com.example.blockchain_voting_system.data.UserData
-import com.example.blockchain_voting_system.data.VoteData
+import com.example.blockchain_voting_system.data.*
 import com.example.blockchain_voting_system.service.VoteService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -33,6 +30,10 @@ class VoteController(private val voteService: VoteService){
     @CrossOrigin
     @GetMapping("/results")
     fun getResults() : ResponseEntity<List<ResultsData>> = voteService.getResults()
+
+    @CrossOrigin
+    @GetMapping("/canUserVote")
+    fun canUserVote(@RequestBody payload: CanUserVoteData) : ResponseEntity<Boolean> = voteService.canUserVote(payload.token)
 
     @ExceptionHandler(WebClientResponseException.Unauthorized::class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
