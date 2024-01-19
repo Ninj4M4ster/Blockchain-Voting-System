@@ -1,5 +1,4 @@
 import {useState, useEffect, React} from 'react';
-import { jwtDecode } from "jwt-decode";
 import axios from 'axios';
 import './App.css';
 import Logo from './icons/logoblockchain.png'
