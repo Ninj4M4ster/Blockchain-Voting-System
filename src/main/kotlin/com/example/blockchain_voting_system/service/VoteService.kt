@@ -20,13 +20,18 @@ class VoteService(){
     private val registrationUseCase = RegistrationUseCase()
     private val blockchainUseCase = BlockchainUseCase()
 
-    fun authenticateUser(userData: UserData) : ResponseEntity<Unit> {
-        println("User $userData trying to authenticate")
-        return when(authenticationUseCase.authenticateUser(userData)){
-            AuthenticationUseCaseResult.EMAIL_IS_NOT_VALID -> ResponseEntity.status(401).build()
-            AuthenticationUseCaseResult.AUTHENTICATION_FAILED -> ResponseEntity.status(401).build()
-            AuthenticationUseCaseResult.OK -> ResponseEntity.ok().build()
-        }
+    fun authenticateUser(userData: UserData) : String {
+
+        val k = authenticationUseCase.login(userData.email, userData.password) ?: ""
+        println(k)
+        return k
+
+//        println("User $userData trying to authenticate")
+//        return when(authenticationUseCase.authenticateUser(userData)){
+//            AuthenticationUseCaseResult.EMAIL_IS_NOT_VALID -> ResponseEntity.status(401).build()
+//            AuthenticationUseCaseResult.AUTHENTICATION_FAILED -> ResponseEntity.status(401).build()
+//            AuthenticationUseCaseResult.OK -> ResponseEntity.ok().build()
+//        }
     }
 
     fun registerUser(registerUserData: RegisterUserData) : ResponseEntity<Unit> {

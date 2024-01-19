@@ -1,12 +1,21 @@
 import {useState, useEffect, React} from 'react';
+import { jwtDecode } from "jwt-decode";
 import axios from 'axios';
 import './App.css';
-import Chart from './MyChart'
-import Logo from './logoblockchain.png'
+import Logo from './icons/logoblockchain.png'
 
 export default function UserPanel()  {
+
+  const [user, setUser] = useState([]);
+
+  const getTokenAndSetUser = () => {
+    const token = localStorage.getItem("jwt_token")
+    setUser(token)
+  }
   
-  
+  useEffect(() => {
+    getTokenAndSetUser();
+  }, []);
 
     return  (
       <body>
@@ -16,7 +25,7 @@ export default function UserPanel()  {
             </div>
               <div className = "userPanelInfo">
                 <h2 className = "logoheaderh2">
-                  Hello, user <b>postgres</b>!
+                  Hello, user <b>{user}</b>!
                 </h2>
                 <div className = "imagelogowrapperUserPanel">
                   <img src = {Logo}/>

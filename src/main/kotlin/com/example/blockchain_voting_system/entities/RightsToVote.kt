@@ -13,5 +13,4 @@ data class RightsToVote(
         val client: Client?= null,
         @Column(name = "email", unique = true, nullable = false)
         val email: String?= null,
-
 )

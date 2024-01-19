@@ -25,7 +25,6 @@ dependencies {
 //	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	implementation(platform("org.hibernate.orm:hibernate-platform:6.4.0.CR1"))
-
 	implementation("org.hibernate.orm:hibernate-core")
 	implementation("jakarta.transaction:jakarta.transaction-api")
 	implementation("org.postgresql:postgresql")
@@ -33,7 +32,12 @@ dependencies {
 	implementation("org.hyperledger.fabric:fabric-gateway:1.4.0")
 	// https://mvnrepository.com/artifact/io.grpc/grpc-netty
 	implementation("io.grpc:grpc-netty:1.59.1")
-
+	implementation("org.keycloak:keycloak-admin-client:22.0.1")
+	implementation("org.springframework.boot:spring-boot-starter-webflux")
+	implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
+	implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
+	implementation("org.springframework.boot:spring-boot-starter-security")
+	testImplementation("org.springframework.security:spring-security-test")
 }
 
 tasks.withType<KotlinCompile> {
