@@ -39,6 +39,10 @@ class VoteController(private val voteService: VoteService){
     @GetMapping("/results/published")
     fun areResultsPublished() : ResponseEntity<Unit> = voteService.areResultsPublished()
 
+    @CrossOrigin
+    @GetMapping("/authenticated")
+    fun isUserAuthenticated() : ResponseEntity<Unit> = voteService.isUserAuthenticated()
+
     @ExceptionHandler(WebClientResponseException.Unauthorized::class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     fun handleUnauthorizedException(ex: WebClientResponseException.Unauthorized): ResponseEntity<String> {

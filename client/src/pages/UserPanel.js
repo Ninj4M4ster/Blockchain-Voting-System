@@ -10,19 +10,33 @@ export default function UserPanel()  {
   axios.defaults.headers.post['Content-Type'] ='application/json';
 
   const [user, setUser] = useState([]);
-
+  const [voteError, setVoteError] = useState({voteError: ""});
+  const [resultsError, setResultsError] = useState({resultsError: ""});
+  
   const navigate = useNavigate();
 
-  const  [voteError, setVoteError] = useState({voteError: ""});
-  const  [resultsError, setResultsError] = useState({resultsError: ""});
+  const setUp = () => {
+    const token = localStorage.getItem("jwt_token");
+    const config = {
+      headers: { 
+        Authorization: `Bearer ${token}`,
+      }
+    }
 
-  const getTokenAndSetUser = () => {
-    const token = localStorage.getItem("jwt_token")
-    const decodedToken = jwtDecode(token)
-    const decodedEmail = decodedToken.email
-    const decodedUserName = decodedEmail.substring(0, decodedEmail.indexOf("@"));
-    setUser(decodedUserName)
+    axios.get("http://localhost:8080/authenticated", config)
+    .then(() => {
+      const decodedToken = jwtDecode(token)
+      const decodedEmail = decodedToken.email
+      const decodedUserName = decodedEmail.substring(0, decodedEmail.indexOf("@"));
+      setUser(decodedUserName)
+    })
+    .catch(err => {
+      localStorage.setItem("jwt_token","")
+      navigate("/")
+    });
   }
+
+
 
   const logOut = e => {
     console.log("JESTEM")
@@ -71,7 +85,7 @@ export default function UserPanel()  {
   }
   
   useEffect(() => {
-    getTokenAndSetUser();
+    setUp();
   }, []);
 
     return  (

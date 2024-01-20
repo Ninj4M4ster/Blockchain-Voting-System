@@ -20,19 +20,10 @@ class VoteService(){
     private val registrationUseCase = RegistrationUseCase()
     private val blockchainUseCase = BlockchainUseCase()
 
-    fun authenticateUser(userData: UserData) : String {
+    fun authenticateUser(userData: UserData) : String  = authenticationUseCase.login(userData.email, userData.password) ?: ""
 
-        val k = authenticationUseCase.login(userData.email, userData.password) ?: ""
-        println(k)
-        return k
-
-//        println("User $userData trying to authenticate")
-//        return when(authenticationUseCase.authenticateUser(userData)){
-//            AuthenticationUseCaseResult.EMAIL_IS_NOT_VALID -> ResponseEntity.status(401).build()
-//            AuthenticationUseCaseResult.AUTHENTICATION_FAILED -> ResponseEntity.status(401).build()
-//            AuthenticationUseCaseResult.OK -> ResponseEntity.ok().build()
-//        }
-    }
+    // Keycloak will throw 401 if user not authenticated
+    fun isUserAuthenticated() : ResponseEntity<Unit> = ResponseEntity.ok().build()
 
     fun registerUser(registerUserData: RegisterUserData) : ResponseEntity<Unit> {
         println("User $registerUserData trying to register")

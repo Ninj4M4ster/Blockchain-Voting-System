@@ -3,6 +3,9 @@ package com.example.blockchain_voting_system.domain.authentication
 import com.example.blockchain_voting_system.config.KeycloakConfig
 import com.example.blockchain_voting_system.data.UserData
 import com.example.blockchain_voting_system.service.DatabaseService
+import com.google.rpc.context.AttributeContext
+import jakarta.transaction.Transactional
+import org.keycloak.representations.idm.CredentialRepresentation
 import org.springframework.context.annotation.Bean
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
@@ -42,7 +45,6 @@ class AuthenticationUseCase{
                 .retrieve()
                 .bodyToMono<String>()
                 .block()
-
     }
 
     @Bean
