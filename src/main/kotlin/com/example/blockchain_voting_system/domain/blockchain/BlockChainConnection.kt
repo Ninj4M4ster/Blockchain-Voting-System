@@ -18,7 +18,7 @@ import java.security.InvalidKeyException
 import java.security.cert.CertificateException
 import java.util.concurrent.TimeUnit
 
-class blockChainConnection @Throws(IOException::class, CertificateException::class, InvalidKeyException::class)
+class BlockChainConnection @Throws(IOException::class, CertificateException::class, InvalidKeyException::class)
 constructor() {
     private val channel: ManagedChannel = newGrpcConnection()
 
@@ -129,9 +129,9 @@ constructor() {
 
     companion object {
         private const val MSP_ID = "Org1MSP"
-        private const val CHANNEL_NAME = "voters"
+        private const val CHANNEL_NAME = "vote"
         private const val CHAINCODE_NAME = "vote"
-        private val CRYPTO_PATH = Paths.get("/home/pawel/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com")
+        private val CRYPTO_PATH = Paths.get("/Users/mikolajjanusz/Hyperledger/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com")
         private val CERT_PATH = CRYPTO_PATH.resolve(Paths.get("users/Admin@org1.example.com/msp/signcerts/Admin@org1.example.com-cert.pem"))
         private val KEY_DIR_PATH = CRYPTO_PATH.resolve(Paths.get("users/Admin@org1.example.com/msp/keystore"))
         private val TLS_CERT_PATH = CRYPTO_PATH.resolve(Paths.get("peers/peer0.org1.example.com/tls/ca.crt"))

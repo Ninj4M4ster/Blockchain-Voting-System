@@ -32,12 +32,15 @@ dependencies {
 	implementation("org.hyperledger.fabric:fabric-gateway:1.4.0")
 	// https://mvnrepository.com/artifact/io.grpc/grpc-netty
 	implementation("io.grpc:grpc-netty:1.59.1")
+	//implementation("io.grpc:grpc-okhttp:1.53.0")
+	//implementation("io.spiffe:grpc-netty-macos:0.8.4")
 	implementation("org.keycloak:keycloak-admin-client:22.0.1")
 	implementation("org.springframework.boot:spring-boot-starter-webflux")
 	implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
 	implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	testImplementation("org.springframework.security:spring-security-test")
+	implementation("io.netty:netty-resolver-dns-native-macos:4.1.106.Final")
 }
 
 tasks.withType<KotlinCompile> {

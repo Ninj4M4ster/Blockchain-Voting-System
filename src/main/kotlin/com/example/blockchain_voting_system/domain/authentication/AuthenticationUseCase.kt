@@ -1,5 +1,6 @@
 package com.example.blockchain_voting_system.domain.authentication
 
+import BlockChainConnection
 import com.example.blockchain_voting_system.config.KeycloakConfig
 import com.example.blockchain_voting_system.data.UserData
 import com.example.blockchain_voting_system.service.DatabaseService
@@ -16,8 +17,7 @@ import org.springframework.web.reactive.function.client.bodyToMono
 class AuthenticationUseCase{
 
     private val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\$"
-    private val dbService = DatabaseService.getService()
-
+    val dbService = DatabaseService.getService()
     private var realmName: String = "myrealm"
 
     fun login(login: String, password: String): String? {

@@ -1,5 +1,6 @@
 package com.example.blockchain_voting_system.service
 
+import BlockChainConnection
 import com.example.blockchain_voting_system.data.RegisterUserData
 import com.example.blockchain_voting_system.data.ResultsData
 import com.example.blockchain_voting_system.data.UserData
@@ -19,8 +20,12 @@ class VoteService(){
     private val authenticationUseCase = AuthenticationUseCase()
     private val registrationUseCase = RegistrationUseCase()
     private val blockchainUseCase = BlockchainUseCase()
+    private val blockChainConnection = BlockChainConnection()
 
-    fun authenticateUser(userData: UserData) : String  = authenticationUseCase.login(userData.email, userData.password) ?: ""
+    fun authenticateUser(userData: UserData) : String {
+        blockChainConnection.addVoter("key")
+        return authenticationUseCase.login(userData.email, userData.password) ?: ""
+    }
 
     // Keycloak will throw 401 if user not authenticated
     fun isUserAuthenticated() : ResponseEntity<Unit> = ResponseEntity.ok().build()

@@ -48,6 +48,7 @@ class DatabaseService private constructor() {
     fun isEmailRegistered(email: String) : Boolean {
         val foundEntry = getRightsBasedOnEmail(email)
         return foundEntry?.client != null
+        return true;
     }
 
     /**
