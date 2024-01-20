@@ -7,15 +7,21 @@ import Logo from './icons/logoblockchain.png'
 
 export default function UserPanel()  {
 
+  axios.defaults.headers.post['Content-Type'] ='application/json';
+
   const [user, setUser] = useState([]);
 
   const navigate = useNavigate();
 
+  const  [voteError, setVoteError] = useState({voteError: ""});
+  const  [resultsError, setResultsError] = useState({resultsError: ""});
+
   const getTokenAndSetUser = () => {
     const token = localStorage.getItem("jwt_token")
     const decodedToken = jwtDecode(token)
-    console.log(decodedToken.email)
-    setUser(decodedToken.email)
+    const decodedEmail = decodedToken.email
+    const decodedUserName = decodedEmail.substring(0, decodedEmail.indexOf("@"));
+    setUser(decodedUserName)
   }
 
   const logOut = e => {
@@ -24,22 +30,43 @@ export default function UserPanel()  {
     navigate('/');
   }
 
-  const canUserVote = e => {
-    const token = "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJBbElGRkJBMTdJNTM4NGhpNXJ0RzZ6bm0yUGpYWl84cjRtREpreXcxTVdrIn0.eyJleHAiOjE3MDU2ODMwMTAsImlhdCI6MTcwNTY4MjcxMCwianRpIjoiZjRjN2M4NzItYmYyOS00MjYzLWEwYmYtYzgwYmViNTE4OGEyIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo5MDAwL3JlYWxtcy9teXJlYWxtIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjI2M2FmNTBjLTA1OTQtNDdkYy04MjVmLTMyZTZkN2Q2MjZjOSIsInR5cCI6IkJlYXJlciIsImF6cCI6Im15Y2xpZW50Iiwic2Vzc2lvbl9zdGF0ZSI6ImViMTIwMTZiLWFlZjItNGMxZC1hNmFhLTBjZjAyNTYyNzgxZSIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiLyoiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMtbXlyZWFsbSIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iLCJVU0VSIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwic2lkIjoiZWIxMjAxNmItYWVmMi00YzFkLWE2YWEtMGNmMDI1NjI3ODFlIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInByZWZlcnJlZF91c2VybmFtZSI6ImR1bW15dXNlckBnbWFpbC5jb20iLCJnaXZlbl9uYW1lIjoiIiwiZmFtaWx5X25hbWUiOiIiLCJlbWFpbCI6ImR1bW15dXNlckBnbWFpbC5jb20ifQ.j0xZYEx39s9eoDyY83e8yvQ5BJs4KHxUTWayYpWi7RUomyl34kPOW62CowPHnEc5rSBQdKOk7w_74NL5kGhx32b45yuQ77C5dFNThfG6x6sYC_2CkjlpZt6h6cv2LEyB5PEDEW0XhBPrKz2paFeGs_zMC6ulCLX4OSDdJz0XgRhEEwueY8IJ3lh5ywKu02dWmUvoROIVYht8AkLgr6vb8FF16LHyPHH2KrlWiXs7c9icDM6L7ZPuUVCgaA-GZewoJkMn1OdKdxDaTsdeVjGXSc1kT2rxS0WSMp-eO9PmFmaFx4CnqTM-tCBHM-puq9fqaCC7es24rTcnqfkucJamlQ"
-    //var token = localStorage.getItem("jwt_token");
-    console.log(token)
-    const userTokenData = {token}
+  const areResultsPublished = e => {
+    const token = localStorage.getItem("jwt_token");
     const config = {
-      headers: { 'Authorization': `Bearer ${token}` }
-    };
+      headers: { 
+        Authorization: `Bearer ${token}`,
+      }
+    }
 
     axios
-    .get('http://localhost:8080/results', config)
+    .get('http://localhost:8080/results/published', config)
     .then((response) => {
       console.log(response);
+      setResultsError({resultsError: ""});
+      navigate('/results');
     })
     .catch(err => {
-      console.log("Error");
+      setResultsError({resultsError: "Results are not published yet!"});
+    });
+  }
+
+  const canUserVote = e => {
+    const token = localStorage.getItem("jwt_token");
+    const config = {
+      headers: { 
+        Authorization: `Bearer ${token}`,
+      }
+    }
+
+    axios
+    .post('http://localhost:8080/canUserVote', token, config)
+    .then((response) => {
+      console.log(response);
+      setVoteError({voteError: ""});
+      navigate('/vote');
+    })
+    .catch(err => {
+      setVoteError({voteError: "You are not allowed to vote!"});
     });
   }
   
@@ -69,13 +96,13 @@ export default function UserPanel()  {
               <div className = "userPanelCell" onClick={e => canUserVote()}>
                   <h3 className = "logoheaderh3userCell">VOTE</h3>
                   <h3 className = "logoheaderh3">If you have rights to vote, you will be redirected to specified page.</h3>
-                  <h3 className = "logoheaderh3error">You are not allowed to vote!</h3>
+                  <h3 className = "logoheaderh3error">{voteError.voteError}</h3>
                 </div>
 
-                <div className = "userPanelCell">
+                <div className = "userPanelCell" onClick={e => areResultsPublished()}>
                   <h3 className = "logoheaderh3userCell">CHECK RESULTS</h3>
                   <h3 className = "logoheaderh3">The results can be checked only when they are officially published.</h3>
-                  <h3 className = "logoheaderh3">You can now see the results.</h3>
+                  <h3 className = "logoheaderh3error">{resultsError.resultsError}</h3>
                 </div>
 
                 <div className = "userPanelCell">

@@ -53,19 +53,31 @@ class VoteService(){
         }
     }
 
-    fun getUserFromDecodedToken(token: String){
+    fun getUserFromDecodedToken(token: String): String {
+        //TODO: parse JSON + try/catch error
         val parts = token.split(".")
         val decoder: Base64.Decoder = Base64.getUrlDecoder()
-        val header: String = String(decoder.decode(parts.get(0)))
-        val payload: String = String(decoder.decode(parts.get(1)))
-        println(header)
-        println(payload)
+        return String(decoder.decode(parts[1]))
     }
 
     fun canUserVote(token: String) : ResponseEntity<Boolean> {
-        getUserFromDecodedToken(token)
-        return ResponseEntity.ok(true)
-        //return authenticationUseCase.canUserVote()
+        //TODO: Decode token, check in database and send result
+
+        //User can vote: 200 ok
+        return ResponseEntity.ok().build()
+
+        //User can't vote: 403 Forbidden
+        //return ResponseEntity.status(403).build()
+    }
+
+    fun areResultsPublished(): ResponseEntity<Unit>{
+        //TODO: Check if results are published
+
+        //Results published: 200 ok
+        return ResponseEntity.ok().build()
+
+        //Results not published: 403 Forbidden
+        //return ResponseEntity.status(403).build()
     }
 
     fun getResults() : ResponseEntity<List<ResultsData>> {
