@@ -3,7 +3,6 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import './App.css';
 import Candidates from './Candidates';
-import Logo from './logoblockchain.png'
 
 export default function Vote(){
   

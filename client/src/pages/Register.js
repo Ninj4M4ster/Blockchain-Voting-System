@@ -1,9 +1,7 @@
 import {useState} from 'react';
 import axios from 'axios';
-import './App.css';
-import Lock from './lock.svg';
-import RegisterIcon from './register.svg'
-import Logo from './logoblockchain.png'
+import RegisterIcon from './icons/register.svg'
+import Logo from './icons/logoblockchain.png'
 
 export default function App()  {
 
