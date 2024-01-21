@@ -7,7 +7,7 @@ export default function App()  {
 
   const  [email, setEmailValue] =  useState('');
   const  [password, setPasswordValue] =  useState('');
-  const  [repeatedPassword, setRepeatedPasswordValue] =  useState('');
+  const  [publicKey, setPublicKeyValue] =  useState('');
   const  [error, setError] = useState({error: ""});
 
 	const handleEmailChange = (event) => {
@@ -18,18 +18,16 @@ export default function App()  {
 		setPasswordValue(event.target.value);
 	};
 
-  const handleRepeatedPasswordChange = (event) => {
-		setRepeatedPasswordValue(event.target.value);
+  const handlePublicKeyChange = (event) => {
+		setPublicKeyValue(event.target.value);
 	};
 
-  const publicKey = "elo"
   const handleSubmit = e => {
     e.preventDefault();
 
     const userData = {
       email,
       password,
-      repeatedPassword,
       publicKey
     }
 
@@ -77,11 +75,11 @@ export default function App()  {
                   <label>EMAIL:
                     <input  type="text" value={email} onChange={handleEmailChange} />
                   </label>
-                  <label>LOGIN:
+                  <label>PASSWORD:
                     <input  type="text" value={password} onChange={handlePasswordChange} />
                   </label>
-                  <label>PASSWORD:
-                    <input  type="text" value={repeatedPassword} onChange={handleRepeatedPasswordChange} />
+                  <label>PUBLIC KEY:
+                    <input  type="text" value={publicKey} onChange={handlePublicKeyChange} />
                   </label>
                   <div className = "errorHeader">
                       <h6 className = "errorh">{error.error}</h6>

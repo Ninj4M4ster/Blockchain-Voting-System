@@ -90,7 +90,28 @@ class DatabaseService private constructor() {
         return foundEntry[0]
     }
 
-    fun addRightsToVote(email: String){
-
+    /**
+     * Add email with rights to vote to database
+     *
+     * @param email user email
+     * @return True if email was added, false if email was already in the database.
+     */
+    fun addVotesRight(email: String) : Boolean {
+        val session = sessionFactory.openSession()
+        val transaction = session.beginTransaction()
+        val query = session.createQuery(
+            "from RightsToVote where email = ?1",
+            RightsToVote::class.java)
+        query.setParameter(1, email)
+        val foundEntry = query.list()
+        if(foundEntry.isEmpty()) {
+            val newRight = RightsToVote(email = email)
+            session.merge(newRight)
+            transaction.commit()
+            session.close()
+            return true
+        }
+        session.close()
+        return false
     }
 }

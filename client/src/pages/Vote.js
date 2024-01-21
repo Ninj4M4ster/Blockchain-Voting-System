@@ -32,6 +32,13 @@ export default function Vote(){
   const handleSubmit = e => {
     e.preventDefault();
 
+    const token = localStorage.getItem("jwt_token");
+    const config = {
+      headers: { 
+        Authorization: `Bearer ${token}`,
+      }
+    }
+
     const voteData = {
       email,
       candidateId,
@@ -40,7 +47,7 @@ export default function Vote(){
     }
 
     axios
-      .post('http://localhost:8080/vote', voteData)
+      .post('http://localhost:8080/vote', voteData, config)
       .then(() => {
         setError({error: ""});
       })

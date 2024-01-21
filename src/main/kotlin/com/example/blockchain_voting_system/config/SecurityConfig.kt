@@ -21,6 +21,7 @@ class SecurityConfig (private val jwtAuthConverter: JwtAuthConverter) {
             .authorizeHttpRequests { authorize ->
                 authorize
                     .requestMatchers("/login").permitAll()
+                    .requestMatchers("/candidate").permitAll()
                     .requestMatchers("/voterights").permitAll()
                     .requestMatchers("/register").permitAll()
                     .anyRequest().authenticated()

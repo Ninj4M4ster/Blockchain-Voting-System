@@ -10,6 +10,30 @@ export default function AdminPanel()  {
     const  [candidateDescription, setCandidateDescription] = useState({candidateDescription: ""});
     const  [grantVoteRightsEmail, setGrantVoteRightsEmail] = useState({email: ""});
 
+    const addCandidate = e => {
+        console.log("elo");
+        const token = localStorage.getItem("jwt_token");
+        const config = {
+          headers: { 
+            Authorization: `Bearer ${token}`,
+          }
+        }
+
+        const body  = {
+            candidateName,
+            candidateDescription
+        }
+    
+        axios
+        .post('http://localhost:8080/candidate', body, config)
+        .then(result => {
+            console.log(result);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+      }
+
     const addRightsToVote = e => {
         console.log("elo");
         const token = localStorage.getItem("jwt_token");
@@ -61,7 +85,7 @@ export default function AdminPanel()  {
                         <div className = "adminPanelCell">
                             <h3 className="logoheaderh3admin">Add candidate</h3>
                             <div className = "addcandidate">
-                                <form onSubmit={handleSubmit} className = "addCandidate">
+                                <form onSubmit={addCandidate} className = "addCandidate">
                                     <br/>
                                     <label>CANDIDATE NAME:
                                     <input  type="text" value={candidateName.candidateName} onChange={handleCandidateNameChange} />

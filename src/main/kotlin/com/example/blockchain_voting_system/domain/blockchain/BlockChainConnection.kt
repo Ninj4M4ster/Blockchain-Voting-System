@@ -80,6 +80,18 @@ constructor() {
     }
 
     @Throws(EndorseException::class, SubmitException::class, CommitStatusException::class, CommitException::class)
+    fun getVoters(): String {
+        println("\n funkcja pokazujaca wszystkich glosujacych \n")
+        try {
+            val result = contract.submitTransaction("GetVoters")
+            return prettyJson(result)
+        } catch (e: EndorseException) {
+            println(e)
+        }
+        return "False"
+    }
+
+    @Throws(EndorseException::class, SubmitException::class, CommitStatusException::class, CommitException::class)
     fun addVoter(key: String): String {
         try {
             contract.submitTransaction("AddVoter", key)
@@ -133,7 +145,7 @@ constructor() {
     fun getResults(): List<Pair<String,Int>>? {
         try {
             val result = contract.submitTransaction("GetResults")
-            println(result)
+            println(prettyJson(result))
             val formatedResult = returnFormat(prettyJson(result))
             return formatedResult
         } catch (e: EndorseException) {

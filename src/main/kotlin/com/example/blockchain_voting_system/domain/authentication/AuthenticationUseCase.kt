@@ -95,9 +95,4 @@ class AuthenticationUseCase{
     private fun checkUserCredentials(email: String, password: String): Boolean{
         return dbService.checkLoginCredentials(email, password)
     }
-
-    fun canUserVote(){
-
-    }
-
 }

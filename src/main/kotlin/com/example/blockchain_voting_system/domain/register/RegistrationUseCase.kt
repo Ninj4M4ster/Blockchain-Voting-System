@@ -11,13 +11,15 @@ class RegistrationUseCase{
     fun registerUser(registerUserData: RegisterUserData): RegistrationUseCaseResult {
         return if(!isEmailValid(registerUserData.email)){
             RegistrationUseCaseResult.EMAIL_IS_NOT_VALID
-        } else if(!checkIfPasswordsMatch(registerUserData.password, registerUserData.repeatedPassword)){
-            RegistrationUseCaseResult.PASSWORD_DONT_MATCH
         } else if(checkIfEmailIsAlreadyRegistered(registerUserData.email)){
             RegistrationUseCaseResult.EMAIL_IS_ALREADY_REGISTERED
         } else{
-            registerUserInTheDatabase(registerUserData.email, registerUserData.password)
-            RegistrationUseCaseResult.OK
+            val result = registerUserInTheDatabase(registerUserData.email, registerUserData.password)
+            if (result){
+                RegistrationUseCaseResult.OK
+            } else {
+                RegistrationUseCaseResult.EMAIL_DOES_NOT_HAVE_RIGHTS_TO_VOTE
+            }
         }
     }
 
@@ -29,8 +31,5 @@ class RegistrationUseCase{
         return dbService.isEmailRegistered(email)
     }
 
-    private fun registerUserInTheDatabase(email: String, password: String){
-        //TODO: register user
-        dbService.registerUser(email, password)
-    }
+    private fun registerUserInTheDatabase(email: String, password: String): Boolean = dbService.registerUser(email, password)
 }
