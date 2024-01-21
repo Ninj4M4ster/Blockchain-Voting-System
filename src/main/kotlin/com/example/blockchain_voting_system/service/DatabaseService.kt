@@ -125,4 +125,20 @@ class DatabaseService private constructor() {
         transaction.commit()
         session.close()
     }
+
+    /**
+     * Get information about candidates from database.
+     *
+     * @return List of candidates objects.
+     */
+    fun getCandidates() : List<Candidate> {
+        val session = sessionFactory.openSession()
+        val transaction = session.beginTransaction()
+        val query = session.createQuery(
+                "select Candidate.id, Candidate.name, Candidate.description from Candidate",
+                Candidate::class.java)
+        val entries = query.list()
+        session.close()
+        return entries
+    }
 }
