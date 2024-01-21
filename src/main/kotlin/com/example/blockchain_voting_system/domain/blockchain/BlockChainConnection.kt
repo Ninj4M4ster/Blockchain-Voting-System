@@ -1,3 +1,4 @@
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParser
 import io.grpc.Grpc
@@ -17,8 +18,9 @@ import java.nio.file.Paths
 import java.security.InvalidKeyException
 import java.security.cert.CertificateException
 import java.util.concurrent.TimeUnit
+import kotlin.text.split
 
-class BlockChainConnection @Throws(IOException::class, CertificateException::class, InvalidKeyException::class)
+class blockChainConnection @Throws(IOException::class, CertificateException::class, InvalidKeyException::class)
 constructor() {
     private val channel: ManagedChannel = newGrpcConnection()
 
@@ -80,42 +82,78 @@ constructor() {
     }
 
     @Throws(EndorseException::class, SubmitException::class, CommitStatusException::class, CommitException::class)
-    fun getVoters() {
+    fun getVoters(): String {
         println("\n funkcja pokazujaca wszystkich glosujacych \n")
         try {
             val result = contract.submitTransaction("GetVoters")
-            println(prettyJson(result))
+            return prettyJson(result)
         } catch (e: EndorseException) {
             println(e)
         }
+        return "False"
     }
 
     @Throws(EndorseException::class, SubmitException::class, CommitStatusException::class, CommitException::class)
-    fun addVoter(key: String) {
+    fun addVoter(key: String): String {
         try {
-            val result = contract.submitTransaction("AddVoter", key)
-            println(result)
+            contract.submitTransaction("AddVoter", key)
+            return "True"
         } catch (e: EndorseException) {
-            println(e)
+            return "False"
         }
     }
 
     @Throws(EndorseException::class, CommitException::class, SubmitException::class, CommitStatusException::class)
-    fun addSignature(publicKey: String, signature: String) {
+    fun addSignature(publicKey: String, signature: String): String {
         val result = contract.submitTransaction("AddSignature", publicKey, signature)
-        println(prettyJson(result))
+        return (prettyJson(result))
     }
 
     @Throws(EndorseException::class, CommitException::class, SubmitException::class, CommitStatusException::class)
-    fun voterExists(publicKey: String) {
+    fun voterExists(publicKey: String): String {
         val result = contract.submitTransaction("VoterExists", publicKey)
-        println(prettyJson(result))
+        return prettyJson(result)
     }
 
     @Throws(EndorseException::class, CommitException::class, SubmitException::class, CommitStatusException::class)
-    fun canVote(publicKey: String) {
-        val result = contract.submitTransaction("CanVote", publicKey)
-        println(prettyJson(result))
+    fun canVote(publicKey: String): String {
+        try {
+            val result = contract.submitTransaction("HasVotingRights", publicKey)
+            return (prettyJson(result))
+        } catch (e: EndorseException) {
+            return "False"
+        }
+
+    }
+    @Throws(EndorseException::class, CommitException::class, SubmitException::class, CommitStatusException::class)
+    fun hasVoted(publicKey: String): String {
+        val result = contract.submitTransaction("HasVoted", publicKey)
+        return (prettyJson(result))
+    }
+    @Throws(EndorseException::class, CommitException::class, SubmitException::class, CommitStatusException::class)
+    fun castVote(publicKey: String, signature: String): String {
+        try {
+            val result = contract.submitTransaction("CastVote", publicKey, signature)
+            return (prettyJson(result))
+        } catch (e: EndorseException) {
+            return "False"
+        }
+    }
+    @Throws(EndorseException::class, CommitException::class, SubmitException::class, CommitStatusException::class)
+    fun finalizeVote(idKandydata: String, info: String) {
+        contract.submitTransaction("FinalizeVote", idKandydata, info)
+    }
+    @Throws(EndorseException::class, CommitException::class, SubmitException::class, CommitStatusException::class)
+    fun getResults(): List<Pair<String,Int>>? {
+        try {
+            val result = contract.submitTransaction("GetResults")
+            println(result)
+            val formatedResult = returnFormat(prettyJson(result))
+            return formatedResult
+        } catch (e: EndorseException) {
+            print(e)
+            return null
+        }
     }
 
     private fun prettyJson(json: ByteArray): String {
@@ -126,12 +164,37 @@ constructor() {
         val parsedJson = JsonParser.parseString(json)
         return gson.toJson(parsedJson)
     }
+    private fun returnFormat (toFormat: String): List<Pair<String, Int>>? {
+        val result = toFormat.split("\"").toMutableList()
+        if (result.size <= 2){
+            return null
+        }
+        result.removeAt(0)
+        var formatedResult = mutableListOf<Pair<String, Int>>()
+        var id: String = ""
+        var score: Int
+        for ((i,value) in result.withIndex()){
+            if (value == "CandidateID"){
+                id = result[i+2]
+            }
+            if (value == "VoteCount"){
+                var temp = result[i+1].replace("\n".toRegex(),"").split(" ")
+                if (temp[1]!= null) {
+                    var number = temp[1]
+                    println(number)
+                    score = number.toInt()
+                    formatedResult.add(Pair(id, score))
+                }
+            }
+        }
+        return formatedResult
+    }
 
     companion object {
         private const val MSP_ID = "Org1MSP"
         private const val CHANNEL_NAME = "vote"
         private const val CHAINCODE_NAME = "vote"
-        private val CRYPTO_PATH = Paths.get("/Users/mikolajjanusz/Hyperledger/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com")
+        private val CRYPTO_PATH = Paths.get("/home/pawel/fabric-samples/test-network/organizations/peerOrganizations/org1.example.com")
         private val CERT_PATH = CRYPTO_PATH.resolve(Paths.get("users/Admin@org1.example.com/msp/signcerts/Admin@org1.example.com-cert.pem"))
         private val KEY_DIR_PATH = CRYPTO_PATH.resolve(Paths.get("users/Admin@org1.example.com/msp/keystore"))
         private val TLS_CERT_PATH = CRYPTO_PATH.resolve(Paths.get("peers/peer0.org1.example.com/tls/ca.crt"))
