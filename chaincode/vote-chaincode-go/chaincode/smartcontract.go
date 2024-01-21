@@ -1,9 +1,15 @@
 package chaincode
 
 import (
+	"crypto/ecdsa"
+	"crypto/elliptic"
+	"crypto/sha256"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"math/big"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
@@ -187,7 +193,32 @@ func (s *SmartContract) CastVote(ctx contractapi.TransactionContextInterface, pu
 		return false, fmt.Errorf("voter %s has already cast their vote", publicKey)
 	}
 
-	// TODO check if signature is correct
+	// check if signature is correct
+	pb := strings.Split(publicKey, "g")
+	X := new(big.Int)
+	Y := new(big.Int)
+	_, success := X.SetString(pb[0], 16)
+	if !success {
+		return false, fmt.Errorf("error while parsing public key")
+	}
+	_, success = Y.SetString(pb[1], 16)
+	if !success {
+		return false, fmt.Errorf("error while parsing public key")
+	}
+	sig, err := hex.DecodeString(signature)
+	if err != nil {
+		return false, fmt.Errorf("error while parsing signature")
+	}
+
+	h := sha256.New()
+	h.Write([]byte("User voted"))
+	bs := h.Sum(nil)
+
+	res := ecdsa.VerifyASN1(&ecdsa.PublicKey{Curve: elliptic.P521(), X: X, Y: Y}, bs, sig)
+
+	if !res {
+		return false, fmt.Errorf("incorrect signature")
+	}
 
 	// overwriting original asset with new asset
 	voter := Voter{
