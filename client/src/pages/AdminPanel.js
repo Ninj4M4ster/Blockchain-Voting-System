@@ -4,39 +4,46 @@ import './App.css';
 
 export default function AdminPanel()  {
 
-    const  [email, setEmailValue] =  useState('');
-    const  [password, setPasswordValue] =  useState('');
-    const  [error, setError] = useState({error: ""});
+    axios.defaults.headers.post['Content-Type'] ='application/json';
+
+    const  [candidateName, setCandidateName] = useState({candidateName: ""});
+    const  [candidateDescription, setCandidateDescription] = useState({candidateDescription: ""});
+    const  [grantVoteRightsEmail, setGrantVoteRightsEmail] = useState({email: ""});
+
+    const addRightsToVote = e => {
+        console.log("elo");
+        const token = localStorage.getItem("jwt_token");
+        const config = {
+          headers: { 
+            Authorization: `Bearer ${token}`,
+          }
+        }
+    
+        axios
+        .post('http://localhost:8080/voterights', grantVoteRightsEmail, config)
+        .then(result => {
+            console.log(result);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+      }
   
-      const handleEmailChange = (event) => {
-          setEmailValue(event.target.value);
+      const handleCandidateNameChange = (event) => {
+          setCandidateName(event.target.value);
       };
   
-    const handlePasswordChange = (event) => {
-          setPasswordValue(event.target.value);
+    const handleCandidateDescriptionChange = (event) => {
+          setCandidateDescription(event.target.value);
       };
+
+    const handleGrantVoteRightsChange = (event) => {
+        setGrantVoteRightsEmail(event.target.value);
+    };
   
     const handleSubmit = e => {
       e.preventDefault();
-  
-      const userData = {
-        email,
-        password
-      }
-  
-      axios
-        .post('http://localhost:8080/login', userData)
-        .then(() => {
-          setError({error: ""});
-        })
-        .catch(err => {
-          if(err.response.status == 401){
-            setError({error: "Email or password is incorrect. Please check your credentials."});
-          } else{
-            setError({error: "Error occured. Please try again later."});
-          }
-  
-        });
+
     }
 
     return  (
@@ -57,13 +64,13 @@ export default function AdminPanel()  {
                                 <form onSubmit={handleSubmit} className = "addCandidate">
                                     <br/>
                                     <label>CANDIDATE NAME:
-                                    <input  type="text" value={email} onChange={handleEmailChange} />
+                                    <input  type="text" value={candidateName.candidateName} onChange={handleCandidateNameChange} />
                                     </label>
                                     <label>CANDIDATE DESCRIPTION:
-                                    <input  type="text" value={password} onChange={handlePasswordChange} />
+                                    <input  type="text" value={candidateDescription.candidateDescription} onChange={handleCandidateDescriptionChange} />
                                     </label>
                                     <div className = "errorHeaderAdmin">
-                                        <h6 className = "errorh">{error.error}</h6>
+                                        <h6 className = "errorh"></h6>
                                     </div>
                                     <div className = "buttonwrapperaddCandidate">
                                         <button type="submit">ADD</button>
@@ -74,13 +81,13 @@ export default function AdminPanel()  {
                         <div className = "adminPanelCell">
                             <h3 className="logoheaderh3admin">Grant voting privileges</h3>
                             <div className = "addcandidate">
-                                <form onSubmit={handleSubmit} className = "addCandidate">
+                                <form onSubmit={addRightsToVote} className = "addCandidate">
                                     <br/>
                                     <label>EMAIL:
-                                    <input  type="text" value={email} onChange={handleEmailChange} />
+                                    <input  type="text" value={grantVoteRightsEmail.email} onChange={handleGrantVoteRightsChange} />
                                     </label>
                                     <div className = "errorHeaderAdmin">
-                                        <h6 className = "errorh">{error.error}</h6>
+                                        <h6 className = "errorh"></h6>
                                     </div>
                                     <div className = "buttonwrapperaddCandidate">
                                         <button type="submit">GRANT</button>
@@ -99,7 +106,7 @@ export default function AdminPanel()  {
                                         <button type="submit">REFRESH</button>
                                     </div>
                                     <div className = "errorHeaderAdmin">
-                                        <h6 className = "errorh">{error.error}</h6>
+                                        <h6 className = "errorh"></h6>
                                     </div>
                                 </form>
                                 <div className = "candidateAdminWrapper">
@@ -193,7 +200,7 @@ export default function AdminPanel()  {
                                         <button type="submit">PUBLISH/UNPUBLISH</button>
                                     </div>
                                     <div className = "errorHeaderAdmin">
-                                        <h6 className = "errorh">{error.error}</h6>
+                                        <h6 className = "errorh"></h6>
                                     </div>
                                 </form>
                             </div>
@@ -209,7 +216,7 @@ export default function AdminPanel()  {
                                         <button type="submit">REFRESH</button>
                                     </div>
                                     <div className = "errorHeaderAdmin">
-                                        <h6 className = "errorh">{error.error}</h6>
+                                        <h6 className = "errorh"></h6>
                                     </div>
                                 </form>
                                 <div className = "candidateAdminResultsWrapper">

@@ -80,42 +80,66 @@ constructor() {
     }
 
     @Throws(EndorseException::class, SubmitException::class, CommitStatusException::class, CommitException::class)
-    fun getVoters() {
-        println("\n funkcja pokazujaca wszystkich glosujacych \n")
+    fun addVoter(key: String): String {
         try {
-            val result = contract.submitTransaction("GetVoters")
-            println(prettyJson(result))
+            contract.submitTransaction("AddVoter", key)
+            return "True"
         } catch (e: EndorseException) {
-            println(e)
-        }
-    }
-
-    @Throws(EndorseException::class, SubmitException::class, CommitStatusException::class, CommitException::class)
-    fun addVoter(key: String) {
-        try {
-            val result = contract.submitTransaction("AddVoter", key)
-            println(result)
-        } catch (e: EndorseException) {
-            println(e)
+            return "False"
         }
     }
 
     @Throws(EndorseException::class, CommitException::class, SubmitException::class, CommitStatusException::class)
-    fun addSignature(publicKey: String, signature: String) {
+    fun addSignature(publicKey: String, signature: String): String {
         val result = contract.submitTransaction("AddSignature", publicKey, signature)
-        println(prettyJson(result))
+        return (prettyJson(result))
     }
 
     @Throws(EndorseException::class, CommitException::class, SubmitException::class, CommitStatusException::class)
-    fun voterExists(publicKey: String) {
+    fun voterExists(publicKey: String): String {
         val result = contract.submitTransaction("VoterExists", publicKey)
-        println(prettyJson(result))
+        return prettyJson(result)
     }
 
     @Throws(EndorseException::class, CommitException::class, SubmitException::class, CommitStatusException::class)
-    fun canVote(publicKey: String) {
-        val result = contract.submitTransaction("CanVote", publicKey)
-        println(prettyJson(result))
+    fun canVote(publicKey: String): String {
+        try {
+            val result = contract.submitTransaction("HasVotingRights", publicKey)
+            return (prettyJson(result))
+        } catch (e: EndorseException) {
+            return "False"
+        }
+
+    }
+    @Throws(EndorseException::class, CommitException::class, SubmitException::class, CommitStatusException::class)
+    fun hasVoted(publicKey: String): String {
+        val result = contract.submitTransaction("HasVoted", publicKey)
+        return (prettyJson(result))
+    }
+    @Throws(EndorseException::class, CommitException::class, SubmitException::class, CommitStatusException::class)
+    fun castVote(publicKey: String, signature: String): String {
+        try {
+            val result = contract.submitTransaction("CastVote", publicKey, signature)
+            return (prettyJson(result))
+        } catch (e: EndorseException) {
+            return "False"
+        }
+    }
+    @Throws(EndorseException::class, CommitException::class, SubmitException::class, CommitStatusException::class)
+    fun finalizeVote(idKandydata: String, info: String) {
+        contract.submitTransaction("FinalizeVote", idKandydata, info)
+    }
+    @Throws(EndorseException::class, CommitException::class, SubmitException::class, CommitStatusException::class)
+    fun getResults(): List<Pair<String,Int>>? {
+        try {
+            val result = contract.submitTransaction("GetResults")
+            println(result)
+            val formatedResult = returnFormat(prettyJson(result))
+            return formatedResult
+        } catch (e: EndorseException) {
+            print(e)
+            return null
+        }
     }
 
     private fun prettyJson(json: ByteArray): String {
@@ -125,6 +149,31 @@ constructor() {
     private fun prettyJson(json: String): String {
         val parsedJson = JsonParser.parseString(json)
         return gson.toJson(parsedJson)
+    }
+    private fun returnFormat (toFormat: String): List<Pair<String, Int>>? {
+        val result = toFormat.split("\"").toMutableList()
+        if (result.size <= 2){
+            return null
+        }
+        result.removeAt(0)
+        var formatedResult = mutableListOf<Pair<String, Int>>()
+        var id: String = ""
+        var score: Int
+        for ((i,value) in result.withIndex()){
+            if (value == "CandidateID"){
+                id = result[i+2]
+            }
+            if (value == "VoteCount"){
+                var temp = result[i+1].replace("\n".toRegex(),"").split(" ")
+                if (temp[1]!= null) {
+                    var number = temp[1]
+                    println(number)
+                    score = number.toInt()
+                    formatedResult.add(Pair(id, score))
+                }
+            }
+        }
+        return formatedResult
     }
 
     companion object {

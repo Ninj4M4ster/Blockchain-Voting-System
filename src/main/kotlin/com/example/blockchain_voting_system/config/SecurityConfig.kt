@@ -21,6 +21,8 @@ class SecurityConfig (private val jwtAuthConverter: JwtAuthConverter) {
             .authorizeHttpRequests { authorize ->
                 authorize
                     .requestMatchers("/login").permitAll()
+                    .requestMatchers("/voterights").permitAll()
+                    .requestMatchers("/register").permitAll()
                     .anyRequest().authenticated()
             }
         httpSecurity.oauth2ResourceServer { oauth2 ->

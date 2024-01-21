@@ -1,10 +1,7 @@
 package com.example.blockchain_voting_system.service
 
 import BlockChainConnection
-import com.example.blockchain_voting_system.data.RegisterUserData
-import com.example.blockchain_voting_system.data.ResultsData
-import com.example.blockchain_voting_system.data.UserData
-import com.example.blockchain_voting_system.data.VoteData
+import com.example.blockchain_voting_system.data.*
 import com.example.blockchain_voting_system.domain.authentication.AuthenticationUseCase
 import com.example.blockchain_voting_system.domain.blockchain.BlockchainUseCase
 import com.example.blockchain_voting_system.domain.blockchain.BlockchainUseCaseResult
@@ -22,8 +19,16 @@ class VoteService(){
     private val blockchainUseCase = BlockchainUseCase()
     private val blockChainConnection = BlockChainConnection()
 
+    fun addRightsToVote(voteRightsData: VoteRightsData) : ResponseEntity<Unit>{
+        // Add rights to vote in blockchain
+        println("Dziala dodawanie")
+        return ResponseEntity.ok().build()
+
+
+        // If succeded, add rights to vote in database
+    }
+
     fun authenticateUser(userData: UserData) : String {
-        blockChainConnection.addVoter("key")
         return authenticationUseCase.login(userData.email, userData.password) ?: ""
     }
 
@@ -31,9 +36,15 @@ class VoteService(){
     fun isUserAuthenticated() : ResponseEntity<Unit> = ResponseEntity.ok().build()
 
     fun registerUser(registerUserData: RegisterUserData) : ResponseEntity<Unit> {
-        println("User $registerUserData trying to register")
+
+        println("Elo")
+
+        // Register user in Keycloak
+        val response = authenticationUseCase.createUser(UserRequest(registerUserData.email, registerUserData.password))
+
+        // Register user in database
         val k = registrationUseCase.registerUser(registerUserData)
-        println(k)
+
         return when(k){
             RegistrationUseCaseResult.EMAIL_IS_NOT_VALID-> ResponseEntity.status(403).build()
             RegistrationUseCaseResult.PASSWORD_DONT_MATCH -> ResponseEntity.status(403).build()

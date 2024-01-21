@@ -13,13 +13,17 @@ class VoteController(private val voteService: VoteService){
     @CrossOrigin
     @PostMapping("/login")
     fun authenticateUser(@RequestBody payload: UserData) : ResponseEntity<String>{
+        println("Authenticate")
         return ResponseEntity.ok(voteService.authenticateUser(payload))
     }
 
     @CrossOrigin
     @PostMapping("/register")
     fun registerUser(@RequestBody payload: RegisterUserData) : ResponseEntity<Unit>{
+        println("Register")
+        val response = voteService.registerUser(payload)
         val k = voteService.registerUser(payload)
+
         println(k)
         return k
     }
@@ -36,6 +40,10 @@ class VoteController(private val voteService: VoteService){
     fun canUserVote(@RequestBody payload: CanUserVoteData) : ResponseEntity<Boolean> = voteService.canUserVote(payload.token)
 
     @CrossOrigin
+    @PostMapping("/voterights")
+    fun addRightsToVote(@RequestBody payload: VoteRightsData) : ResponseEntity<Unit> = voteService.addRightsToVote(payload)
+
+    @CrossOrigin
     @GetMapping("/results/published")
     fun areResultsPublished() : ResponseEntity<Unit> = voteService.areResultsPublished()
 
@@ -48,5 +56,7 @@ class VoteController(private val voteService: VoteService){
     fun handleUnauthorizedException(ex: WebClientResponseException.Unauthorized): ResponseEntity<String> {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.message)
     }
+
+
 
 }

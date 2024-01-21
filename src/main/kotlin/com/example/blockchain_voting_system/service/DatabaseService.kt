@@ -89,4 +89,8 @@ class DatabaseService private constructor() {
             return null
         return foundEntry[0]
     }
+
+    fun addRightsToVote(email: String){
+
+    }
 }

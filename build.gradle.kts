@@ -40,8 +40,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	testImplementation("org.springframework.security:spring-security-test")
-	implementation("io.netty:netty-resolver-dns-native-macos:4.1.106.Final")
-}
+	runtimeOnly("io.netty:netty-resolver-dns-native-macos:4.1.76.Final:osx-aarch_64")}
 
 tasks.withType<KotlinCompile> {
 	kotlinOptions {

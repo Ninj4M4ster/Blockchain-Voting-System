@@ -22,14 +22,15 @@ export default function App()  {
 		setRepeatedPasswordValue(event.target.value);
 	};
 
-
+  const publicKey = "elo"
   const handleSubmit = e => {
     e.preventDefault();
 
     const userData = {
       email,
       password,
-      repeatedPassword
+      repeatedPassword,
+      publicKey
     }
 
     axios
