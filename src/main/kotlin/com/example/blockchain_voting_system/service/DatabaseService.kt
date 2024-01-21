@@ -1,9 +1,6 @@
 package com.example.blockchain_voting_system.service
 
-import com.example.blockchain_voting_system.entities.Client
-import com.example.blockchain_voting_system.entities.EmailToVote
-import com.example.blockchain_voting_system.entities.RightsToVote
-import com.example.blockchain_voting_system.entities.Voting
+import com.example.blockchain_voting_system.entities.*
 import org.hibernate.cfg.Configuration
 
 /**
@@ -95,7 +92,7 @@ class DatabaseService private constructor() {
      * @param email user email
      * @return True if email was added, false if email was already in the database.
      */
-    public fun addVotesRight(email: String) : Boolean {
+    fun addVotesRight(email: String) : Boolean {
         val session = sessionFactory.openSession()
         val transaction = session.beginTransaction()
         val query = session.createQuery(
@@ -112,5 +109,20 @@ class DatabaseService private constructor() {
         }
         session.close()
         return false
+    }
+
+    /**
+     * Add candidate to database.
+     *
+     * @param name Name of the candidate.
+     * @param description Description about the candidate.
+     */
+    fun addCandidate(name: String, description: String) {
+        val session = sessionFactory.openSession()
+        val transaction = session.beginTransaction()
+        val candidate = Candidate(name = name, description = description)
+        session.merge(candidate)
+        transaction.commit()
+        session.close()
     }
 }
