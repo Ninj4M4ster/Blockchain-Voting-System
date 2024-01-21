@@ -1,9 +1,6 @@
 package com.example.blockchain_voting_system.service
 
-import com.example.blockchain_voting_system.entities.Client
-import com.example.blockchain_voting_system.entities.EmailToVote
-import com.example.blockchain_voting_system.entities.RightsToVote
-import com.example.blockchain_voting_system.entities.Voting
+import com.example.blockchain_voting_system.entities.*
 import org.hibernate.cfg.Configuration
 
 /**
@@ -48,7 +45,6 @@ class DatabaseService private constructor() {
     fun isEmailRegistered(email: String) : Boolean {
         val foundEntry = getRightsBasedOnEmail(email)
         return foundEntry?.client != null
-        return true;
     }
 
     /**
@@ -100,8 +96,8 @@ class DatabaseService private constructor() {
         val session = sessionFactory.openSession()
         val transaction = session.beginTransaction()
         val query = session.createQuery(
-            "from RightsToVote where email = ?1",
-            RightsToVote::class.java)
+                "from RightsToVote where email = ?1",
+                RightsToVote::class.java)
         query.setParameter(1, email)
         val foundEntry = query.list()
         if(foundEntry.isEmpty()) {
@@ -113,5 +109,36 @@ class DatabaseService private constructor() {
         }
         session.close()
         return false
+    }
+
+    /**
+     * Add candidate to database.
+     *
+     * @param name Name of the candidate.
+     * @param description Description about the candidate.
+     */
+    fun addCandidate(name: String, description: String) {
+        val session = sessionFactory.openSession()
+        val transaction = session.beginTransaction()
+        val candidate = Candidate(name = name, description = description)
+        session.merge(candidate)
+        transaction.commit()
+        session.close()
+    }
+
+    /**
+     * Get information about candidates from database.
+     *
+     * @return List of candidates objects.
+     */
+    fun getCandidates() : List<Candidate> {
+        val session = sessionFactory.openSession()
+        val transaction = session.beginTransaction()
+        val query = session.createQuery(
+                "select Candidate.id, Candidate.name, Candidate.description from Candidate",
+                Candidate::class.java)
+        val entries = query.list()
+        session.close()
+        return entries
     }
 }
