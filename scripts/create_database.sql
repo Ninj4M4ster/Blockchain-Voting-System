@@ -1,4 +1,5 @@
 -- create database and connect to it
+drop database blockchain_voting;
 create database blockchain_voting;
 \c blockchain_voting
 
@@ -20,6 +21,12 @@ create table email_to_vote(
     id SERIAL CONSTRAINT email_to_vote_key PRIMARY KEY,
     id_voting int NOT NULL,
     id_user int NOT NULL);
+
+create table candidates(
+    id SERIAL CONSTRAINT candidates_id_key PRIMARY KEY,
+    name varchar(70) NOT NULL,
+    description varchar (400)
+);
 
 -- add constraints
 alter table clients add constraint ref_id_right_to_vote FOREIGN KEY (id_right_to_vote) REFERENCES rights_to_vote (id);
