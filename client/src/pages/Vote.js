@@ -13,6 +13,8 @@ export default function Vote(){
   const  [error, setError] = useState({error: ""});
   const  email = "a@b.c"
 
+  
+
   const setCandidateHandler = () => {
 		setCandidateShownValue(current => !current);
 	};

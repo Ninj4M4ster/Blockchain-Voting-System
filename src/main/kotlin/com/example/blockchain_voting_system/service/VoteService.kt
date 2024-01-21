@@ -7,6 +7,7 @@ import com.example.blockchain_voting_system.domain.blockchain.BlockchainUseCase
 import com.example.blockchain_voting_system.domain.blockchain.BlockchainUseCaseResult
 import com.example.blockchain_voting_system.domain.register.RegistrationUseCase
 import com.example.blockchain_voting_system.domain.register.RegistrationUseCaseResult
+import com.example.blockchain_voting_system.entities.Candidate
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import java.util.*
@@ -20,7 +21,16 @@ class VoteService() {
     private val blockChainConnection = BlockChainConnection()
 
     private val votesToAdd = mutableListOf<VoteData>()
-    private val MAX_VOTES_LIST_SIZE = 1
+    private val MAX_VOTES_LIST_SIZE = 5
+
+    fun addCandidate(candidateData: CandidateData): ResponseEntity<Unit>{
+        authenticationUseCase.dbService.addCandidate(candidateData.candidateName, candidateData.candidateDescription)
+        return ResponseEntity.ok().build()
+    }
+
+    fun getCandidates(): ResponseEntity<List<Candidate>>{
+        return ResponseEntity.ok(authenticationUseCase.dbService.getCandidates())
+    }
 
     fun addRightsToVote(voteRightsData: VoteRightsData): ResponseEntity<Unit> {
         println("Elo dodajemy")

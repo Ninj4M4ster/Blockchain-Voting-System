@@ -29,5 +29,6 @@ export default function Candidates(){
     <span>Kathy possesses exceptional leadership qualities, exemplified by her ability to inspire and unite people from diverse backgrounds toward a common goal. </span>
     </div>
   </div>
-  </div>);
+  </div>
+  );
   }

@@ -32,7 +32,7 @@ class VoteController(private val voteService: VoteService){
     @PostMapping("/candidate")
     fun addCandidate(@RequestBody payload: CandidateData) : ResponseEntity<Unit>{
         println("Add candidate")
-        return ResponseEntity.ok().build()
+        return voteService.addCandidate(payload)
     }
 
     @CrossOrigin
