@@ -1,4 +1,4 @@
-package com.example.blockchain_voting_system.domain.register
+package com.example.blockchain_voting_system.results
 
 
 enum class RegistrationUseCaseResult{

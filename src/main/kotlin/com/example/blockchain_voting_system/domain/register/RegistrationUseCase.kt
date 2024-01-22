@@ -1,6 +1,7 @@
 package com.example.blockchain_voting_system.domain.register
 
 import com.example.blockchain_voting_system.data.RegisterUserData
+import com.example.blockchain_voting_system.results.RegistrationUseCaseResult
 import com.example.blockchain_voting_system.service.DatabaseService
 
 class RegistrationUseCase{

@@ -1,4 +1,4 @@
-package com.example.blockchain_voting_system.domain.authentication
+package com.example.blockchain_voting_system.results
 
 enum class AuthenticationUseCaseResult{
     EMAIL_IS_NOT_VALID,

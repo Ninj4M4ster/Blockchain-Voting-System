@@ -36,8 +36,6 @@ export default function UserPanel()  {
     });
   }
 
-
-
   const logOut = e => {
     console.log("JESTEM")
     localStorage.setItem("jwt_token","")

@@ -12,32 +12,19 @@ class VoteController(private val voteService: VoteService){
 
     @CrossOrigin
     @PostMapping("/login")
-    fun authenticateUser(@RequestBody payload: UserData) : ResponseEntity<String>{
-        println("Authenticate")
-        return ResponseEntity.ok(voteService.authenticateUser(payload))
-    }
+    fun authenticateUser(@RequestBody payload: UserData) : ResponseEntity<String> = ResponseEntity.ok(voteService.authenticateUser(payload))
 
     @CrossOrigin
     @PostMapping("/register")
-    fun registerUser(@RequestBody payload: RegisterUserData) : ResponseEntity<Unit>{
-        println("Register")
-        val response = voteService.registerUser(payload)
-        val k = voteService.registerUser(payload)
-
-        println(k)
-        return k
-    }
+    fun registerUser(@RequestBody payload: RegisterUserData) : ResponseEntity<Unit> = voteService.registerUser(payload)
 
     @CrossOrigin
     @PostMapping("/candidate")
-    fun addCandidate(@RequestBody payload: CandidateData) : ResponseEntity<Unit>{
-        println("Add candidate")
-        return voteService.addCandidate(payload)
-    }
+    fun addCandidate(@RequestBody payload: CandidateData) : ResponseEntity<Unit> = voteService.addCandidate(payload)
 
     @CrossOrigin
     @PostMapping("/vote")
-    fun vote(@RequestBody payload: VoteData) : ResponseEntity<Unit> = voteService.sendVote(payload)
+    fun vote(@RequestBody payload: VoteData) : ResponseEntity<String> = voteService.sendVote(payload)
 
     @CrossOrigin
     @GetMapping("/results")
@@ -52,19 +39,11 @@ class VoteController(private val voteService: VoteService){
     fun addRightsToVote(@RequestBody payload: VoteRightsData) : ResponseEntity<Unit> = voteService.addRightsToVote(payload)
 
     @CrossOrigin
-    @GetMapping("/results/published")
-    fun areResultsPublished() : ResponseEntity<Unit> = voteService.areResultsPublished()
-
-    @CrossOrigin
     @GetMapping("/authenticated")
     fun isUserAuthenticated() : ResponseEntity<Unit> = voteService.isUserAuthenticated()
 
     @ExceptionHandler(WebClientResponseException.Unauthorized::class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    fun handleUnauthorizedException(ex: WebClientResponseException.Unauthorized): ResponseEntity<String> {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.message)
-    }
-
-
+    fun handleUnauthorizedException(ex: WebClientResponseException.Unauthorized): ResponseEntity<String> = ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.message)
 
 }

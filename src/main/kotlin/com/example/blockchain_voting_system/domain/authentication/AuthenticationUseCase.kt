@@ -1,20 +1,16 @@
 package com.example.blockchain_voting_system.domain.authentication
 
-import BlockChainConnection
 import com.example.blockchain_voting_system.config.Credentials
 import com.example.blockchain_voting_system.config.KeycloakConfig
 import com.example.blockchain_voting_system.data.UserData
 import com.example.blockchain_voting_system.data.UserRequest
+import com.example.blockchain_voting_system.results.AuthenticationUseCaseResult
 import com.example.blockchain_voting_system.service.DatabaseService
-import com.google.rpc.context.AttributeContext
 import jakarta.transaction.Transactional
 import jakarta.ws.rs.core.Response
-import org.keycloak.admin.client.CreatedResponseUtil
 import org.keycloak.admin.client.resource.RealmResource
-import org.keycloak.admin.client.resource.UserResource
 import org.keycloak.admin.client.resource.UsersResource
 import org.keycloak.representations.idm.CredentialRepresentation
-import org.keycloak.representations.idm.RoleRepresentation
 import org.keycloak.representations.idm.UserRepresentation
 import org.springframework.context.annotation.Bean
 import org.springframework.http.HttpHeaders
