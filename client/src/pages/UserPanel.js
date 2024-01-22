@@ -43,23 +43,7 @@ export default function UserPanel()  {
   }
 
   const areResultsPublished = e => {
-    const token = localStorage.getItem("jwt_token");
-    const config = {
-      headers: { 
-        Authorization: `Bearer ${token}`,
-      }
-    }
-
-    axios
-    .get('http://localhost:8080/results/published', config)
-    .then((response) => {
-      console.log(response);
-      setResultsError({resultsError: ""});
-      navigate('/results');
-    })
-    .catch(err => {
-      setResultsError({resultsError: "Results are not published yet!"});
-    });
+    navigate("/results")
   }
 
   const canUserVote = e => {

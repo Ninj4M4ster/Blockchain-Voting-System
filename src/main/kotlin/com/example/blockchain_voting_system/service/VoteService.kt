@@ -129,6 +129,7 @@ class VoteService() {
     }
 
     fun getResults(): ResponseEntity<List<ResultsData>> {
+        println("get results");
         val candidates = authenticationUseCase.dbService.getCandidates()
         val results = blockChainConnection.getResults()?.map {
             ResultsData(
