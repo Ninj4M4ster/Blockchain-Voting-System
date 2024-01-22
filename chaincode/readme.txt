@@ -5,7 +5,7 @@ Run network: ./network.sh up
 Add channel: ./network.sh createChannel -c vote
 
 Installation: ./network.sh deployCC -c vote -ccl go -ccn vote -ccp [path ending in .../vote-chaincode-go]
-Installation: ./network.sh deployCC -c vote -ccl go -ccn vote -ccp /Users/mikolajjanusz/Hyperledger/vote-chaincode-go
+Installation: ./network.sh deployCC -c vote -ccl go -ccn vote -ccp /Users/mikolajjanusz/Blockchain-Voting-System/chaincode
 
 Conracts:
 InitElection(voteInfo string) -> error

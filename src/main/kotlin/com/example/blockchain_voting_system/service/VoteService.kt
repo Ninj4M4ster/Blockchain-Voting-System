@@ -21,7 +21,7 @@ class VoteService() {
     private val blockChainConnection = BlockChainConnection()
 
     private val votesToAdd = mutableListOf<VoteData>()
-    private val MAX_VOTES_LIST_SIZE = 5
+    private val MAX_VOTES_LIST_SIZE = 1
 
     fun addCandidate(candidateData: CandidateData): ResponseEntity<Unit>{
         authenticationUseCase.dbService.addCandidate(candidateData.candidateName, candidateData.candidateDescription)
@@ -87,19 +87,16 @@ class VoteService() {
 
         if (!hasVoted && canVote) {
 
-            //TODO zapytaj Janka ktora + handle error: zły podpis
-            val addSignatureResult = blockChainConnection.castVote(voteData.publicKey, voteData.privateKey)
-            println("Add signature result $addSignatureResult")
-
-            votesToAdd.add(voteData)
-            votesToAdd.shuffle()
-
-            if(votesToAdd.size == MAX_VOTES_LIST_SIZE){
-                println("Adding to blockchain")
-                votesToAdd.forEach {
-                    blockChainConnection.finalizeVote(it.candidateId.toString(), "")
+            if(blockChainConnection.castVote(voteData.publicKey, voteData.privateKey).toBoolean()){
+                votesToAdd.add(voteData)
+                votesToAdd.shuffle()
+                if(votesToAdd.size == MAX_VOTES_LIST_SIZE){
+                    println("Adding to blockchain")
+                    votesToAdd.forEach {
+                        blockChainConnection.finalizeVote(it.candidateId.toString(), "")
+                    }
+                    votesToAdd.clear()
                 }
-                votesToAdd.clear()
             }
         }
 
