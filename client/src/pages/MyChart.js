@@ -6,6 +6,9 @@ export default function MyChart(chartData) {
     console.log(chartData.chartData)
 
     const COLORS = ["#c7c91c", "#7feb75", "#68b9d9", "#f6287f", "eeeeee"];
+    if(chartData.chartData.length == 0){
+        return <div className = "errorHeaderResults">Loading ... </div>
+    } else{
     return (
             <PieChart width={400} height={400} className="chart">
             <Pie
@@ -24,4 +27,5 @@ export default function MyChart(chartData) {
         </PieChart>
         
     );
+        }
 }

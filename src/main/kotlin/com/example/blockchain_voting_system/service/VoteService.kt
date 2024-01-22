@@ -23,21 +23,21 @@ class VoteService() {
     private val votesToAdd = mutableListOf<VoteData>()
     private val MAX_VOTES_LIST_SIZE = 1
 
-    fun addCandidate(candidateData: CandidateData): ResponseEntity<Unit>{
+    fun addCandidate(candidateData: CandidateData): ResponseEntity<Unit> {
         authenticationUseCase.dbService.addCandidate(candidateData.candidateName, candidateData.candidateDescription)
         return ResponseEntity.ok().build()
     }
 
-    fun getCandidates(): ResponseEntity<List<Candidate>>{
+    fun getCandidates(): ResponseEntity<List<Candidate>> {
         return ResponseEntity.ok(authenticationUseCase.dbService.getCandidates())
     }
 
     fun addRightsToVote(voteRightsData: VoteRightsData): ResponseEntity<Unit> {
         println("Elo dodajemy")
         // Add rights to vote in the database
-        return if(authenticationUseCase.dbService.addVotesRight(voteRightsData.email)){
+        return if (authenticationUseCase.dbService.addVotesRight(voteRightsData.email)) {
             ResponseEntity.ok().build()
-        } else{
+        } else {
             ResponseEntity.status(409).build()
         }
     }
@@ -81,16 +81,16 @@ class VoteService() {
         println("Results before: ${blockChainConnection.getResults()}")
 
         val hasVoted = (blockChainConnection.hasVoted(voteData.publicKey)).toBoolean()
-        val canVote =  (blockChainConnection.canVote(voteData.publicKey)).toBoolean()
+        val canVote = (blockChainConnection.canVote(voteData.publicKey)).toBoolean()
 
         println("Has voted $hasVoted can Vote $canVote")
 
         if (!hasVoted && canVote) {
 
-            if(blockChainConnection.castVote(voteData.publicKey, voteData.privateKey).toBoolean()){
+            if (blockChainConnection.castVote(voteData.publicKey, voteData.privateKey).toBoolean()) {
                 votesToAdd.add(voteData)
                 votesToAdd.shuffle()
-                if(votesToAdd.size == MAX_VOTES_LIST_SIZE){
+                if (votesToAdd.size == MAX_VOTES_LIST_SIZE) {
                     println("Adding to blockchain")
                     votesToAdd.forEach {
                         blockChainConnection.finalizeVote(it.candidateId.toString(), "")
@@ -135,9 +135,20 @@ class VoteService() {
     }
 
     fun getResults(): ResponseEntity<List<ResultsData>> {
+
+        val candidates = authenticationUseCase.dbService.getCandidates()
+
         println("Get results")
-        val results = blockChainConnection.getResults()?.map{
-            ResultsData(it.first.toInt(), "Example", it.second)
+        val results = blockChainConnection.getResults()?.map {
+            println(it.first.toInt())
+            ResultsData(
+                it.first.toInt(),
+                blockchainUseCase.getCandidateNameForSpecifiedId(
+                    candidates,
+                    it.first.toInt()
+                ),
+                it.second
+            )
         }
 
         return ResponseEntity.ok().body(results)

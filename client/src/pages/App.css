@@ -679,3 +679,8 @@ h5{
   padding-top: 0;
   color:#1a1a1a;
 }
+
+.errorHeaderResults{
+  color: rgb(207, 207, 207);
+  font-size: 30px;
+}

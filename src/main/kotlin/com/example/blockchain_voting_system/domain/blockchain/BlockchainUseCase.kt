@@ -2,6 +2,7 @@ package com.example.blockchain_voting_system.domain.blockchain
 
 import com.example.blockchain_voting_system.data.ResultsData
 import com.example.blockchain_voting_system.data.VoteData
+import com.example.blockchain_voting_system.entities.Candidate
 
 class BlockchainUseCase{
 
@@ -31,6 +32,15 @@ class BlockchainUseCase{
 
     private fun sendVoteToBlockchainSystem(){
         //TODO: send to blockchain
+    }
+
+    fun getCandidateNameForSpecifiedId(candidates: List<Candidate>, id: Int) : String{
+        for (candidate in candidates) {
+            if(candidate.id == id){
+                return candidate.name ?: "Name not specified"
+            }
+        }
+        return "Name not specified"
     }
 
 }
