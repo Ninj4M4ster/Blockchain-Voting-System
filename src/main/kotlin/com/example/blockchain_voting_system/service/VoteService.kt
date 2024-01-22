@@ -5,7 +5,6 @@ import com.example.blockchain_voting_system.results.VotingResult
 import com.example.blockchain_voting_system.data.*
 import com.example.blockchain_voting_system.domain.authentication.AuthenticationUseCase
 import com.example.blockchain_voting_system.domain.register.RegistrationUseCase
-import com.example.blockchain_voting_system.results.RegistrationUseCaseResult
 import com.example.blockchain_voting_system.entities.Candidate
 import com.example.blockchain_voting_system.results.toResponseEntity
 import com.example.blockchain_voting_system.utils.blockchainStringToBoolean
@@ -51,20 +50,14 @@ class VoteService() {
     // Keycloak will throw 401 if user not authenticated
     fun isUserAuthenticated(): ResponseEntity<Unit> = ResponseEntity.ok().build()
 
-    fun registerUser(registerUserData: RegisterUserData): ResponseEntity<Unit> {
+    fun registerUser(registerUserData: RegisterUserData): ResponseEntity<String> {
 
         // Register user in Keycloak
         val response = authenticationUseCase.createUser(UserRequest(registerUserData.email, registerUserData.password))
         blockChainConnection.addVoter(registerUserData.publicKey)
         // Register user in database
 
-        return when (registrationUseCase.registerUser(registerUserData)) {
-            RegistrationUseCaseResult.EMAIL_IS_NOT_VALID -> ResponseEntity.status(403).build()
-            RegistrationUseCaseResult.PASSWORD_DONT_MATCH -> ResponseEntity.status(403).build()
-            RegistrationUseCaseResult.EMAIL_IS_ALREADY_REGISTERED -> ResponseEntity.status(409).build()
-            RegistrationUseCaseResult.EMAIL_DOES_NOT_HAVE_RIGHTS_TO_VOTE -> ResponseEntity.status(409).build()
-            RegistrationUseCaseResult.OK -> ResponseEntity.ok().build()
-        }
+        return registrationUseCase.registerUser(registerUserData).toResponseEntity()
     }
 
     fun sendVote(voteData: VoteData): ResponseEntity<String> {

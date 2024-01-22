@@ -4,7 +4,7 @@ import com.example.blockchain_voting_system.config.Credentials
 import com.example.blockchain_voting_system.config.KeycloakConfig
 import com.example.blockchain_voting_system.data.UserData
 import com.example.blockchain_voting_system.data.UserRequest
-import com.example.blockchain_voting_system.results.AuthenticationUseCaseResult
+import com.example.blockchain_voting_system.results.AuthenticationResult
 import com.example.blockchain_voting_system.service.DatabaseService
 import jakarta.transaction.Transactional
 import jakarta.ws.rs.core.Response
@@ -75,14 +75,14 @@ class AuthenticationUseCase{
     }
 
     @Bean
-    fun authenticateUser(userData: UserData): AuthenticationUseCaseResult {
+    fun authenticateUser(userData: UserData): AuthenticationResult {
 
         return if(!isEmailValid(userData.email)){
-            AuthenticationUseCaseResult.EMAIL_IS_NOT_VALID
+            AuthenticationResult.EMAIL_IS_NOT_VALID
         } else if(!checkUserCredentials(userData.email, userData.password)){
-            AuthenticationUseCaseResult.AUTHENTICATION_FAILED
+            AuthenticationResult.AUTHENTICATION_FAILED
         } else{
-            AuthenticationUseCaseResult.OK
+            AuthenticationResult.OK
         }
     }
 

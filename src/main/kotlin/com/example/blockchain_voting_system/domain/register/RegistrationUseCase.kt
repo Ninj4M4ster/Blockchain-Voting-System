@@ -1,7 +1,7 @@
 package com.example.blockchain_voting_system.domain.register
 
 import com.example.blockchain_voting_system.data.RegisterUserData
-import com.example.blockchain_voting_system.results.RegistrationUseCaseResult
+import com.example.blockchain_voting_system.results.RegistrationResult
 import com.example.blockchain_voting_system.service.DatabaseService
 
 class RegistrationUseCase{
@@ -9,17 +9,17 @@ class RegistrationUseCase{
     private val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\$"
     private val dbService = DatabaseService.getService()
 
-    fun registerUser(registerUserData: RegisterUserData): RegistrationUseCaseResult {
+    fun registerUser(registerUserData: RegisterUserData): RegistrationResult {
         return if(!isEmailValid(registerUserData.email)){
-            RegistrationUseCaseResult.EMAIL_IS_NOT_VALID
+            RegistrationResult.EMAIL_IS_NOT_VALID
         } else if(checkIfEmailIsAlreadyRegistered(registerUserData.email)){
-            RegistrationUseCaseResult.EMAIL_IS_ALREADY_REGISTERED
+            RegistrationResult.EMAIL_IS_ALREADY_REGISTERED
         } else{
             val result = registerUserInTheDatabase(registerUserData.email, registerUserData.password)
             if (result){
-                RegistrationUseCaseResult.OK
+                RegistrationResult.OK
             } else {
-                RegistrationUseCaseResult.EMAIL_DOES_NOT_HAVE_RIGHTS_TO_VOTE
+                RegistrationResult.EMAIL_DOES_NOT_HAVE_RIGHTS_TO_VOTE
             }
         }
     }

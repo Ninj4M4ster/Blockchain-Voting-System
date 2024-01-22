@@ -73,7 +73,7 @@ export default function App()  {
                               <input  type="text" value={email} onChange={handleEmailChange} />
                               </label>
                               <label>PASSWORD:
-                              <input  type="text" value={password} onChange={handlePasswordChange} />
+                              <input  type="password" value={password} onChange={handlePasswordChange} />
                               </label>
                               <div className = "errorHeader">
                                   <h6 className = "errorh">{error.error}</h6>

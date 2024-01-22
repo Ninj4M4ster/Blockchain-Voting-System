@@ -47,7 +47,7 @@ export default function Vote(){
     axios
       .post('http://localhost:8080/vote', voteData, config)
       .then(() => {
-        setError({error: ""});
+        setError({error: "Vote sent correctly"});
       })
       .catch(err => {
         console.log(err);

@@ -33,5 +33,4 @@ class SecurityConfig (private val jwtAuthConverter: JwtAuthConverter) {
         }
         return httpSecurity.build()
     }
-
 }

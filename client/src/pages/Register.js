@@ -2,6 +2,7 @@ import {useState} from 'react';
 import axios from 'axios';
 import RegisterIcon from './icons/register.svg'
 import Logo from './icons/logoblockchain.png'
+import { useNavigate } from "react-router-dom";
 
 export default function App()  {
 
@@ -9,6 +10,7 @@ export default function App()  {
   const  [password, setPasswordValue] =  useState('');
   const  [publicKey, setPublicKeyValue] =  useState('');
   const  [error, setError] = useState({error: ""});
+  const navigate = useNavigate();
 
 	const handleEmailChange = (event) => {
 		setEmailValue(event.target.value);
@@ -35,15 +37,10 @@ export default function App()  {
       .post('http://localhost:8080/register', userData)
       .then(() => {
         setError({error: ""});
+        navigate("/")
       })
       .catch(err => {
-        if(err.response.status == 403){
-          setError({error: "Passwords don't match or email is invalid."});
-        } else if(err.response.status == 409){
-          setError({error: "This email is already registered."});
-        } else{
-          setError({error: "Error occured. Please try again later."});
-        }
+        setError({error: err.response.data});
       });
   }
 
@@ -76,7 +73,7 @@ export default function App()  {
                     <input  type="text" value={email} onChange={handleEmailChange} />
                   </label>
                   <label>PASSWORD:
-                    <input  type="text" value={password} onChange={handlePasswordChange} />
+                    <input  type="password" value={password} onChange={handlePasswordChange} />
                   </label>
                   <label>PUBLIC KEY:
                     <input  type="text" value={publicKey} onChange={handlePublicKeyChange} />
@@ -95,7 +92,6 @@ export default function App()  {
           </footer>
             </div>
           </div>
-
         </div>
     </body>
     )
